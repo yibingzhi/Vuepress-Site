@@ -7,9 +7,9 @@ config:
     full: true
     background: tint-plate
     hero:
-      name: Theme Plume
-      tagline: VuePress Next Theme
-      text: 一个简约的，功能丰富的 vuepress 文档&博客 主题
+      name: 翌冰之
+      tagline: 行至水穷处，坐看云起时
+      text: 与其仰慕他人，不如自我成长
       actions:
         -
           theme: brand
@@ -18,5 +18,7 @@ config:
         -
           theme: alt
           text: Github →
-          link: https://github.com/pengzhanbo/vuepress-theme-plume
+          link: https://github.com/yibingzhi
+        
 ---
+

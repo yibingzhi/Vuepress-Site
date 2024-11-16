@@ -2,20 +2,23 @@ import { viteBundler } from '@vuepress/bundler-vite'
 import { defineUserConfig } from 'vuepress'
 import { plumeTheme } from 'vuepress-theme-plume'
 
+
+
+
 export default defineUserConfig({
   base: '/',
   lang: 'zh-CN',
   locales: {
     '/': {
-      title: 'My Vuepress Site',
+      title: 'Yibz',
       lang: 'zh-CN',
       description: '',
     },
-    '/en/': {
-      title: 'My Vuepress Site',
-      lang: 'en-US',
-      description: '',
-    },
+    // '/en/': {
+    //   title: 'My Vuepress Site',
+    //   lang: 'en-US',
+    //   description: '',
+    // },
   },
 
   bundler: viteBundler(),
@@ -30,7 +33,7 @@ export default defineUserConfig({
        * @see https://theme-plume.vuejs.press/config/plugins/code-highlight/
        */
       // shiki: {
-           // 强烈建议预设代码块高亮语言，插件默认加载所有语言会产生不必要的时间开销
+      //      强烈建议预设代码块高亮语言，插件默认加载所有语言会产生不必要的时间开销
       //   languages: ['shell', 'bash', 'typescript', 'javascript'],
       // },
 
@@ -40,7 +43,7 @@ export default defineUserConfig({
        */
       markdownEnhance: {
         demo: true,
-      //   include: true,
+        // include: true,
       //   chart: true,
       //   echarts: true,
       //   mermaid: true,
@@ -73,16 +76,17 @@ export default defineUserConfig({
        * 评论 comments
        * @see https://theme-plume.vuejs.press/guide/features/comments/
        */
-      // comment: {
-      //   provider: '', // "Artalk" | "Giscus" | "Twikoo" | "Waline"
-      //   comment: true,
-      //   repo: '',
-      //   repoId: '',
-      //   categoryId: '',
-      //   mapping: 'pathname',
-      //   reactionsEnabled: true,
-      //   inputPosition: 'top',
-      // },
+      comment: {
+        provider: "Giscus",
+        comment: true,
+        repo: 'yibingzhi/giscus',
+        repoId: 'R_kgDONPFazg',
+        category: 'Announcements',
+        categoryId: 'DIC_kwDONPFazs4CkQLI',
+        mapping: 'pathname',
+        reactionsEnabled: true,
+        inputPosition: 'top',
+      },
     },
   }),
 })

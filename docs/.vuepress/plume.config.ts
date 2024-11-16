@@ -6,7 +6,7 @@ import { enNotes, zhNotes } from './notes'
  * @see https://theme-plume.vuejs.press/config/basic/
  */
 export default defineThemeConfig({
-  logo: 'https://theme-plume.vuejs.press/plume.png',
+  logo: '1.jpg',
   // your git repo url
   docsRepo: '',
   docsDir: 'docs',
@@ -14,18 +14,18 @@ export default defineThemeConfig({
   appearance: true,
 
   social: [
-    { icon: 'github', link: '/' },
+    { icon: 'github', link: 'https://github.com/yibingzhi' },
   ],
 
   locales: {
     '/': {
       profile: {
-        avatar: 'https://theme-plume.vuejs.press/plume.png',
-        name: 'My Vuepress Site',
+        avatar: '1.jpg',
+        name: '翌冰之',
         description: '',
-        // circle: true,
-        // location: '',
-        // organization: '',
+        circle: true,
+        location: '',
+        organization: '',
       },
 
       navbar: zhNavbar,
