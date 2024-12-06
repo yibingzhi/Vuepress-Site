@@ -41,6 +41,7 @@ const zhJava = defineNoteConfig({
     'SpringBoot集成Mybatis-flex',
     'SpringBoot集成RabbitMq',
     'SpringBoot集成阿里云oss',
+      'SpringBoot集成Knife4j',
   ],
 },)
 
