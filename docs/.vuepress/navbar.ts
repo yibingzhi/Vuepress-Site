@@ -43,7 +43,6 @@ export const zhNavbar = defineNavbarConfig([
     {
         text: '数据库',
         items: [
-            {text: '安装配置', link: '/notes/sql/安装/mysql安装.md'},
             {text: 'mysql语法', link: '/notes/sql/mysql.md'},
             {text: 'redis', link: '/notes/sql/redis.md'},
             {text: 'mongoDB', link: '/notes/sql/mongoDB.md'},
@@ -52,7 +51,7 @@ export const zhNavbar = defineNavbarConfig([
 
         ]
     },
-    
+
 ])
 
 export const enNavbar = defineNavbarConfig([

@@ -1,3 +1,8 @@
+---
+title: systemctl命令文档
+createTime: 2024/12/06 16:12:31
+permalink: /article/ebdofn5f/
+---
 以下是关于 `systemctl` 命令的简要文档：
 
 # systemctl 命令文档
