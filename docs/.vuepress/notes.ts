@@ -30,8 +30,8 @@ const zhJava = defineNoteConfig({
       ],
 
     },
-
-
+    'SpringBoot全局异常处理',
+    'SpringBoot统一接口封装',
     'SpringBoot集成Mybatis',
     'SpringBoot集成Redis',
     'SpringBoot集成jpa',
@@ -41,7 +41,7 @@ const zhJava = defineNoteConfig({
     'SpringBoot集成Mybatis-flex',
     'SpringBoot集成RabbitMq',
     'SpringBoot集成阿里云oss',
-      'SpringBoot集成Knife4j',
+    'SpringBoot集成Knife4j',
   ],
 },)
 
