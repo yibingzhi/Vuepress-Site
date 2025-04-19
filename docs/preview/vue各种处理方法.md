@@ -1,3 +1,8 @@
+---
+title: vue各种处理方法
+createTime: 2024/12/29 15:12:33
+permalink: /article/nbc6yezx/
+---
 ### Vue 3 中监听路由变化并刷新页面的笔记
 
 在Vue 3中，如果我们想在路由发生变化时刷新页面，可以通过以下方法实现：

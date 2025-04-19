@@ -1,3 +1,8 @@
+---
+title: SpringBoot常见注解
+createTime: 2024/12/19 20:33:00
+permalink: /article/0ji9ju7g/
+---
 以下是在上述 Spring Boot 常用注解笔记基础上补充了 MyBatis 日志以及 Swagger 相关注解的内容：
 
 # Spring Boot 常用注解笔记

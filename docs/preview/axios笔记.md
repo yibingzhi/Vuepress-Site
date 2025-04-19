@@ -1,3 +1,8 @@
+---
+title: axios笔记
+createTime: 2024/12/20 20:46:19
+permalink: /article/8c5ajlfv/
+---
 # Axios 学习笔记
 
 Axios 是一个基于 Promise 的 HTTP 客户端，用于在浏览器和 Node.js 中发送 HTTP 请求。它具有简洁的 API、丰富的功能以及对请求和响应的拦截器支持，广泛应用于前端和后端开发中与服务器进行数据交互。

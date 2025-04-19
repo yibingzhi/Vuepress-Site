@@ -1,3 +1,8 @@
+---
+title: 封装与后台交互的api
+createTime: 2024/12/20 15:01:13
+permalink: /article/3lz8epu3/
+---
 在Vue.js项目中封装与后台交互的API可以大大简化前端代码的管理和维护。以下是一个系统化的方法来封装这些API：
 
 ### 1. 创建一个API模块

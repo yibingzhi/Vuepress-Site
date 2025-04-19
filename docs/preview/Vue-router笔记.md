@@ -1,3 +1,8 @@
+---
+title: Vue-router笔记
+createTime: 2024/12/21 16:38:58
+permalink: /article/7e9yyzii/
+---
 
 # Vue Router 学习笔记
 

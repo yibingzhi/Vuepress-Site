@@ -1,3 +1,8 @@
+---
+title: Vuex笔记
+createTime: 2024/12/21 16:40:13
+permalink: /article/0jbas8ef/
+---
 # Vuex 学习笔记
 
 ## 一、Vuex 概述

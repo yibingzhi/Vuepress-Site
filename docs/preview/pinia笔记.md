@@ -1,3 +1,8 @@
+---
+title: pinia笔记
+createTime: 2024/12/21 16:37:46
+permalink: /article/k32p4cau/
+---
 # Pinia 学习笔记
 
 ## 一、Pinia 简介

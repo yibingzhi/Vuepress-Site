@@ -1,3 +1,8 @@
+---
+title: SpringBoot统一接口封装
+createTime: 2024/12/19 20:40:02
+permalink: /SpringBoot/u237h32k/
+---
 # Spring Boot 统一接口封装笔记
 
 ## 一、目的

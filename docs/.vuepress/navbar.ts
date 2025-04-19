@@ -13,8 +13,6 @@ export const zhNavbar = defineNavbarConfig([
             {text: 'css', link: '/notes/前端/css.md'},
             {text: 'JavaScript', link: '/notes/前端/js.md'},
             {text: 'Vue', link: '/notes/前端/vue.md'},
-
-
         ]
     },
     {
@@ -25,18 +23,13 @@ export const zhNavbar = defineNavbarConfig([
             {text: 'javaIO流', link: '/notes/java/javaIO流.md'},
             {text: 'java多线程', link: '/notes/java/java多线程.md'},
             {text: 'java反射', link: '/notes/java/java反射.md'},
-            {text: 'SpringBoot集成', link: '/notes/java/SpringBoot/SpringBoot集成Mybatis.md'}
-
-
+            {text: 'java集合', link: '/notes/java/JavaCollection/用法示例.md'},
         ]
     },
     {
         text: 'Spring',
         items: [
-
             {text: 'SpringBoot集成', link: '/notes/java/SpringBoot/SpringBoot集成Mybatis.md'}
-
-
         ]
     },
 
@@ -47,8 +40,6 @@ export const zhNavbar = defineNavbarConfig([
             {text: 'redis', link: '/notes/sql/redis.md'},
             {text: 'mongoDB', link: '/notes/sql/mongoDB.md'},
             {text: 'Elasticsearch', link: '/notes/sql/es.md'},
-
-
         ]
     },
 

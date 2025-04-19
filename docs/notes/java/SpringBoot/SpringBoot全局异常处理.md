@@ -1,3 +1,8 @@
+---
+title: SpringBoot全局异常处理
+createTime: 2024/12/19 20:39:41
+permalink: /SpringBoot/5x39aigd/
+---
 # Spring Boot 全局异常处理笔记
 
 ## 一、`@ControllerAdvice` 与 `@ExceptionHandler` 基础
