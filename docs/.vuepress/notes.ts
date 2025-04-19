@@ -43,7 +43,7 @@ const zhJava = defineNoteConfig(
 )
 const zhJavaCollection = defineNoteConfig(
     {
-        dir: 'java/JavaCollection',
+        dir: 'java/JavaCollection/',
         link: '/JavaCollection',
         sidebar: [
             '用法示例',
@@ -61,7 +61,6 @@ const zhJavaCollection = defineNoteConfig(
                     'TreeSet&TreeMap详解',
                     'WeakHashMap详解',
                 ],
-
             },
         ],
     },
