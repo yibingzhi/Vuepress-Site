@@ -540,6 +540,3 @@ public Set<Map.Entry<K,V>> entrySet() {
     - 基于 HashMap 扩展，增加双向链表支持插入或访问顺序。
     - 优点：键值操作高效，支持 LRU 缓存。
     - 缺点：线程不安全，内存占用较高。
-
-通过源码解析，我们可以看到 LinkedHashSet 是 LinkedHashMap 的轻量封装，两者共享哈希表和双向链表的优点（快速查找和顺序维护）。希望这篇通俗易懂的分析能帮你更好地理解
-LinkedHashSet 和 LinkedHashMap 的实现原理！如果有具体方法或细节需要进一步讲解，请告诉我！

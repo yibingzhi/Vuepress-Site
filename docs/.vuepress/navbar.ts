@@ -19,10 +19,12 @@ export const zhNavbar = defineNavbarConfig([
         text: 'java',
         items: [
             {text: 'java基础语法', link: '/notes/java/java综合语法.md'},
-            {text: 'java集合', link: '/notes/java/java集合类.md'},
             {text: 'javaIO流', link: '/notes/java/javaIO流.md'},
             {text: 'java多线程', link: '/notes/java/java多线程.md'},
             {text: 'java反射', link: '/notes/java/java反射.md'},
+            {text: 'java泛型', link: '/notes/java/Java泛型机制详解.md'},
+            {text: 'java异常', link: '/notes/java/Java异常机制详解.md'},
+            {text: 'java注解', link: '/notes/java/java注解机制详解.md'},
             {text: 'java集合', link: '/notes/java/JavaCollection/用法示例.md'},
         ]
     },
@@ -40,6 +42,14 @@ export const zhNavbar = defineNavbarConfig([
             {text: 'redis', link: '/notes/sql/redis.md'},
             {text: 'mongoDB', link: '/notes/sql/mongoDB.md'},
             {text: 'Elasticsearch', link: '/notes/sql/es.md'},
+        ]
+    },
+
+    {
+        text: 'AI',
+        items: [
+            {text: 'SpringAI', link: '/notes/Ai/SpringAi笔记.md'},
+  
         ]
     },
 

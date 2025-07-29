@@ -3,7 +3,6 @@ title: java集合类
 createTime: 2024/11/19 10:16:34
 permalink: /article/or78nw7y/
 ---
-以下是一份较为详细的Java集合笔记：
 
 ### 一、集合框架概述
 
