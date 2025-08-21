@@ -1,3 +1,8 @@
+---
+title: NIO详解教程
+createTime: 2025/08/18 09:55:33
+permalink: /java/n01l0a6n/
+---
 # NIO详解教程
 
 本文档配合`com.ibz.nio`包中的Java文件，详细介绍Java NIO（New I/O）的原理、使用方法和实际应用。

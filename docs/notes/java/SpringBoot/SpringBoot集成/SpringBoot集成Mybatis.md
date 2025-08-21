@@ -1,7 +1,7 @@
 ---
 title: SpringBoot集成Mybatis
 createTime: 2024/11/16 21:30:40
-permalink: /SpringBoot/0nizg1rg/
+permalink: /SpringBoot/SpringBoot集成/vox25ufw/
 ---
 
 ### 一、创建Spring Boot项目基础环境
@@ -283,6 +283,3 @@ public class BookServiceTest {
     }
 }
 ```
-
-通过以上这些步骤，就可以在Spring
-Boot项目中成功集成Mybatis来进行数据库相关操作了。在实际应用中，还可以根据具体业务需求进一步优化和扩展相关功能，比如配置多数据源、使用Mybatis的高级特性（如缓存、动态SQL等）等。

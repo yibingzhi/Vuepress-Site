@@ -1,8 +1,8 @@
 ---
-title: SpringBoot集成
-createTime: 2024/11/13 22:32:29
-permalink: /java/SpringBoot/
+title: SpringBoot
+createTime: 2024/11/13 22:31:52
+permalink: /SpringBoot/
 ---
 
-- [SpringBoot集成ElasticSearch](./SpringBoot集成ElasticSearch.md)
+- [SpringBoot集成ElasticSearch](SpringBoot集成/SpringBoot集成ElasticSearch.md)
 

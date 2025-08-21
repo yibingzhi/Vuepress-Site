@@ -1,10 +1,8 @@
 ---
 title: SpringBoot集成MongDB
 createTime: 2024/11/16 21:24:12
-permalink: /SpringBoot/r966ecnp/
+permalink: /SpringBoot/SpringBoot集成/i27l4c1t/
 ---
-在 Spring Boot 中集成 MongoDB 是一个常见的任务，特别是在需要处理文档型数据的应用中。Spring Boot 提供了对 MongoDB 的良好支持，通过
-Spring Data MongoDB 模块可以轻松实现。以下是一个关于在 Spring Boot 项目中集成 MongoDB 的详细教程。
 
 ### 一、准备工作
 
@@ -192,6 +190,3 @@ public class CustomMongoService {
     }
 }
 ```
-
-通过这个教程，您可以在 Spring Boot 项目中集成 MongoDB，并利用其文档存储功能来处理非结构化数据。根据您的具体需求，您可以进一步探索
-MongoDB 的高级特性，如聚合、索引和事务等。

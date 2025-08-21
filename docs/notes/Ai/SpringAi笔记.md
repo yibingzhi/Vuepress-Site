@@ -1,11 +1,14 @@
 ---
+tags:
+  - AI
+  - Spring AI
+  - 大语言模型
+  - LLM
+  - Java
+  - Spring
 title: SpringAi笔记
 createTime: 2025/07/29 16:15:47
-permalink: /article/kiii7nxw/
----
-
-### Spring AI Alibaba 开发详细笔记
-
+permalink: /article/ycz7qulv/
 ---
 
 #### 1. 框架简介
@@ -243,29 +246,3 @@ Spring AI Alibaba 设计为与阿里云生态深度集成，支持以下云原�
 
 ---
 
-#### 6. 常见问题与解决方法
-
-- **依赖问题**: 如果无法解析 `spring-ai-alibaba-starter`，确保配置了 Spring Milestones
-  仓库，参考 [FAQ 页面](https://java2ai.com/docs/1.0.0.2/faq)。
-- **API 密钥无效**: 调用模型时返回 401 Unauthorized，确认 `spring.ai.alibabacloud.api-key` 配置正确，并在阿里云控制台验证密钥。
-- **性能优化**: 对于高并发场景，建议启用 Nacos MCP Registry 和 ARMS 监控。
-
----
-
-#### 7. 参考资源
-
-- **官方文档**: [Spring AI Alibaba 官网](https://java2ai.com/en/docs/1.0.0.2/overview/)
-- **GitHub 仓库**: [Spring AI Alibaba](https://github.com/alibaba/spring-ai-alibaba)
-- **示例代码**: [Spring AI Alibaba Examples](https://github.com/springaialibaba/spring-ai-alibaba-examples)
-- **阿里云 Bailian 平台**: [Alibaba Cloud Bailian](https://www.alibabacloud.com/product/bailian)
-- **Spring AI 官方**: [Spring AI](https://spring.io/projects/spring-ai/)
-
----
-
-#### 8. 注意事项
-
-- **版本兼容性**: 确保使用 Spring AI Alibaba 1.0 GA 或更高版本（2025 年 7 月 29 日推荐 1.0.0.2），以获取完整功能支持。
-- **社区支持**: 加入 Spring AI Alibaba 社区（GitHub Discussions 或阿里云社区）获取最新更新和技术支持。
-- **企业级部署**: 对于生产环境，建议集成 ARMS 和 Langfuse 进行监控和评估。
-
----

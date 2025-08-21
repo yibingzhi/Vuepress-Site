@@ -1,10 +1,15 @@
 ---
+tags:
+  - Java
+  - 集合框架
+  - TreeSet
+  - TreeMap
+  - Set
+  - Map
 title: TreeSet&TreeMap详解
 createTime: 2025/04/19 18:46:37
-permalink: /JavaCollection/1zb6g63c/
+permalink: /java/41sdq9rz/
 ---
-
-## 一、TreeSet 详解
 
 #### 1.1 什么是 TreeSet？
 

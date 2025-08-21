@@ -1,8 +1,9 @@
 ---
 title: SpringBoot集成Minio
 createTime: 2024/11/16 21:24:55
-permalink: /SpringBoot/ya7w6rfn/
+permalink: /SpringBoot/SpringBoot集成/nmpm312m/
 ---
+
 ### 一、环境准备
 
 - **安装Minio服务器（可选，若已有可用的Minio服务可跳过此步）**：
@@ -441,6 +442,3 @@ public class MinioController {
     }
 }
 ```
-
-通过以上步骤及代码示例，能够在Spring
-Boot项目中完整地集成Minio，实现对象存储相关的各类操作，以满足不同业务场景下对文件存储和管理的需求。在实际应用中，还可根据具体需求进一步优化和扩展功能，比如添加权限验证、文件类型过滤等逻辑。

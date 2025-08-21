@@ -1,8 +1,9 @@
 ---
 title: SpringBoot集成阿里云oss
 createTime: 2024/11/16 21:34:49
-permalink: /SpringBoot/h08bgjvd/
+permalink: /SpringBoot/SpringBoot集成/j62ckccl/
 ---
+
 ### 一、准备工作
 
 1. **创建阿里云账号并开通 OSS 服务**：如果您还没有阿里云账号，请先注册一个账号，并确保已经开通了 OSS 服务。
@@ -168,6 +169,3 @@ public class OssController {
 
 - 上传文件：`POST /oss/upload`，通过表单数据上传文件。
 - 下载文件：`GET /oss/download/{fileName}`，通过文件名下载文件。
-
-通过这个教程，您可以在 Spring Boot 项目中集成阿里云 OSS，并利用其对象存储功能来处理文件的上传和下载。根据您的具体需求，您可以进一步探索
-OSS 的高级特性，如访问控制、生命周期管理和静态网站托管等。

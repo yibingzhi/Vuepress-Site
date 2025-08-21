@@ -1,6 +1,9 @@
-# Java Web开发教程
+---
+title: JavaWeb开发教程
+createTime: 2025/08/18 09:55:33
+permalink: /java/ipsy7ix1/
+---
 
-本文档配合`com.ibz.网络编程.web`包中的Java文件和`src/main/webapp`目录中的Web资源文件，详细介绍Java Web开发中Servlet和JSP的基本概念和实现方式。
 
 ## Web开发基础概念
 
@@ -384,89 +387,3 @@ src/main/java/com/ibz/网络编程/web/
 2. **防止XSS攻击**：对用户输入进行转义
 3. **CSRF保护**：使用令牌验证
 4. **会话安全**：设置安全的会话管理策略
-
-## 包结构说明
-
-为了更好地组织代码，我们将Web编程相关的类放在`com.ibz.网络编程.web`包中：
-
-```
-src/main/java/com/ibz/网络编程/web/
-├── HelloServlet.java           // 简单Servlet示例
-├── UserServlet.java            // 用户表单处理Servlet
-└── UserListServlet.java        // 用户列表Servlet
-
-src/main/webapp/
-├── index.html                  // 首页
-├── hello.jsp                   // JSP示例
-├── user-list.jsp               // 用户列表JSP示例
-├── user-form.html              // 用户表单HTML
-├── footer.jsp                  // 页脚包含文件
-├── error/                      # 错误页面目录
-│   ├── 404.html
-│   ├── 500.html
-│   └── general.html
-└── WEB-INF/
-    └── web.xml                 # Web应用配置文件
-```
-
-## 运行示例
-
-要运行Web开发示例，需要一个Servlet容器，如Tomcat。可以使用以下方法：
-
-### 1. 使用Maven Tomcat插件
-
-在pom.xml中添加Tomcat插件：
-
-```xml
-<plugin>
-    <groupId>org.apache.tomcat.maven</groupId>
-    <artifactId>tomcat7-maven-plugin</artifactId>
-    <version>2.2</version>
-    <configuration>
-        <port>8080</port>
-        <path>/</path>
-    </configuration>
-</plugin>
-```
-
-然后运行：
-
-```bash
-mvn tomcat7:run
-```
-
-### 2. 手动部署到Tomcat
-
-1. 构建WAR文件：
-```bash
-mvn clean package
-```
-
-2. 将生成的WAR文件部署到Tomcat的webapps目录
-
-3. 启动Tomcat服务器
-
-### 3. 使用IDE内置服务器
-
-在IntelliJ IDEA等IDE中，可以直接配置Tomcat服务器并运行应用。
-
-## 总结
-
-Java Web开发是构建Web应用程序的重要技术，掌握Servlet和JSP是学习Java Web开发的基础：
-
-1. **Servlet**：处理HTTP请求和响应的核心组件
-2. **JSP**：创建动态Web页面的技术
-3. **表单处理**：获取和验证用户输入数据
-4. **会话管理**：在多个请求间保持用户状态
-5. **错误处理**：妥善处理各种异常情况
-6. **配置管理**：通过web.xml和注解配置应用
-
-通过学习本教程，您应该能够：
-- 理解Servlet和JSP的基本概念
-- 创建和配置Servlet
-- 编写JSP页面
-- 处理表单数据
-- 管理会话和应用范围属性
-- 配置错误页面和Web应用
-
-在实际开发中，通常会使用更高级的框架（如Spring MVC、Struts等）来简化Web开发，但掌握原生Servlet和JSP技术对于理解Web框架的工作原理非常重要。

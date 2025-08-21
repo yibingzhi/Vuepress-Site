@@ -1,6 +1,8 @@
-# Java数据库编程教程
-
-本文档配合`com.ibz.网络编程.database`包中的Java文件，详细介绍Java数据库编程（JDBC）的基本概念和实现方式。
+---
+title: Java数据库编程教程
+createTime: 2025/08/18 09:55:33
+permalink: /java/r0mur3i9/
+---
 
 ## 数据库编程基础概念
 
@@ -384,45 +386,3 @@ DAO模式的优势：
 2. **易于测试**：可以轻松地对DAO进行单元测试
 3. **易于维护**：数据访问逻辑集中在一个地方
 4. **易于扩展**：可以轻松更换数据存储实现
-
-## 包结构说明
-
-为了更好地组织代码，我们将数据库编程相关的类放在`com.ibz.网络编程.database`包中：
-
-```
-src/main/java/com/ibz/网络编程/database/
-├── DatabaseDemo.java    // 数据库编程演示主类
-├── User.java            // 用户实体类
-├── UserDAO.java         // 用户数据访问对象接口
-└── UserDAOImpl.java     // 用户数据访问对象实现类
-```
-
-## 运行示例
-
-要运行数据库编程示例，使用以下命令：
-
-```bash
-mvn compile
-mvn exec:java -Dexec.mainClass="com.ibz.网络编程.database.DatabaseDemo"
-```
-
-该示例使用SQLite数据库，不需要额外安装数据库服务器，程序会自动创建[users.db](file:///C:/Users/Tong/%E5%AD%A6%E4%B9%A0/code/java/users.db)文件作为数据库。
-
-## 总结
-
-Java数据库编程（JDBC）是Java开发者必须掌握的重要技能：
-
-1. **JDBC基础**：掌握JDBC核心接口和类的使用
-2. **安全编程**：使用PreparedStatement防止SQL注入
-3. **资源管理**：正确管理数据库连接和相关资源
-4. **异常处理**：妥善处理数据库操作异常
-5. **设计模式**：使用DAO模式分离数据访问逻辑
-
-通过学习本教程，您应该能够：
-- 理解JDBC的基本概念和架构
-- 掌握数据库连接和操作的基本方法
-- 使用PreparedStatement执行安全的SQL查询
-- 实现基本的CRUD操作
-- 应用DAO模式组织数据库访问代码
-
-在实际开发中，还应该考虑使用ORM框架（如Hibernate、MyBatis）来简化数据库操作，但在学习阶段，掌握原生JDBC是非常重要的。

@@ -7,9 +7,9 @@ config:
     full: true
     background: tint-plate
     hero:
-      name: 翌冰之
-      tagline: 行至水穷处，坐看云起时
-      text: 与其仰慕他人，不如自我成长
+      name: 
+      tagline: 橦栖云
+      text: 静水深流，成长在自己的节奏里。
       actions:
         -
           theme: brand

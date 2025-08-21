@@ -1,4 +1,8 @@
 ---
+tags:
+  - Java
+  - 集合框架
+  - Collection
 title: Java集合框架
 createTime: 2025/04/19 18:46:37
 permalink: /java/r43t7mc5/

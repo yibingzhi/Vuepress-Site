@@ -1,13 +1,13 @@
 ---
+tags:
+  - 前端
+  - JavaScript
+  - JS
+  - 脚本
 title: JavaScript
 createTime: 2024/11/16 21:13:49
 permalink: /article/5aqinp8d/
 ---
-JavaScript 是一种用于创建动态和交互式网页的编程语言。它是前端开发的核心技术之一，与 HTML 和 CSS 一起工作。以下是一个 JavaScript 综合语法教程，涵盖了基本语法、数据类型、控制结构、函数、对象、DOM 操作和 ES6+ 新特性等内容。
-
----
-
-# JavaScript 综合语法教程
 
 ## 一、基本语法
 
@@ -117,7 +117,7 @@ console.log(greet("Alice"));
 ### 2. 函数表达式
 
 ```javascript
-const greet = function(name) {
+const greet = function (name) {
     return "Hello, " + name;
 };
 
@@ -216,7 +216,7 @@ console.log(greet("Charlie"));
 
 ```javascript
 let button = document.querySelector("button");
-button.addEventListener("click", function() {
+button.addEventListener("click", function () {
     alert("Button clicked!");
 });
 ```
@@ -310,5 +310,3 @@ console.log(greeting);
   ```
 
 ---
-
-通过这个综合教程，您可以掌握 JavaScript 的基本和高级用法，包括变量、数据类型、控制结构、函数、对象、DOM 操作、事件处理和 ES6+ 的新特性。JavaScript 是现代 Web 开发的核心技术之一，结合 HTML 和 CSS，您可以创建动态和交互式的 Web 应用。根据您的具体需求，您可以进一步探索 JavaScript 的其他高级特性和优化技巧。

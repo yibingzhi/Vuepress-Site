@@ -1,3 +1,13 @@
+---
+tags:
+  - Java
+  - 高级特性
+  - 性能监控
+  - 调优
+title: Java性能监控和调优教程
+createTime: 2025/08/18 09:55:33
+permalink: /java/2pntcv7v/
+---
 # Java性能监控和调优教程
 
 本文档详细介绍Java性能监控和调优的相关知识，帮助开发者了解如何监控和优化Java应用程序的性能。

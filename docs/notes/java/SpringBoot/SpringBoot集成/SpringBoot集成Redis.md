@@ -1,9 +1,8 @@
 ---
 title: SpringBoot集成Redis
 createTime: 2024/11/16 21:20:17
-permalink: /SpringBoot/kly6y4fc/
+permalink: /SpringBoot/SpringBoot集成/vqbv51q2/
 ---
-以下是一份Spring Boot集成Redis的笔记，涵盖了从基础配置到常用操作等方面的内容，希望对你有所帮助：
 
 ### 一、前提准备
 
@@ -155,5 +154,3 @@ public class RedisExampleController {
 
 - 启动Spring Boot项目后，可以通过浏览器或者工具（如Postman等）访问对应的接口地址（如`/set`、`/get`
   等）来测试Redis的集成是否成功，查看返回结果以及在Redis客户端中查看相应的数据是否正确存储和获取等情况。
-
-以上就是Spring Boot集成Redis的基本笔记内容，你可以根据实际项目需求进一步拓展，例如利用Redis实现缓存、分布式锁等功能，这些都会基于上述的基础集成配置和操作来进行拓展应用。 

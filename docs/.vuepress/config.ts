@@ -32,10 +32,10 @@ export default defineUserConfig({
        * Shiki 代码高亮
        * @see https://theme-plume.vuejs.press/config/plugins/code-highlight/
        */
-      // shiki: {
-      //      强烈建议预设代码块高亮语言，插件默认加载所有语言会产生不必要的时间开销
-      //   languages: ['shell', 'bash', 'typescript', 'javascript'],
-      // },
+      shiki: {
+        // 强烈建议预设代码块高亮语言，插件默认加载所有语言会产生不必要的时间开销
+        languages: ['shell', 'bash', 'typescript', 'javascript', 'java', 'sql', 'xml', 'yaml', 'json', 'python', 'lua', 'ini', 'properties', 'vue', 'html', 'css', 'groovy', 'dockerfile'],
+      },
 
       /**
        * markdown enhance

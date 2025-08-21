@@ -1,10 +1,8 @@
 ---
 title: SpringBoot集成Mybatis-flex
 createTime: 2024/11/16 21:34:31
-permalink: /SpringBoot/7riv4nbw/
+permalink: /SpringBoot/SpringBoot集成/8als3g4o/
 ---
-MyBatis-Flex 是 MyBatis 的一个增强工具，旨在提供更灵活的 SQL 构建和查询功能。它可以帮助开发者更高效地进行数据库操作。以下是一个关于在
-Spring Boot 项目中集成 MyBatis-Flex 的详细教程。
 
 ### 一、准备工作
 
@@ -184,8 +182,3 @@ public class UserController {
 - 获取所有用户：`GET /api/users`
 - 创建用户：`POST /api/users`
 - 删除用户：`DELETE /api/users/{id}`
-
-通过这个教程，您可以在 Spring Boot 项目中集成 MyBatis-Flex，并利用其增强功能来简化数据库操作。根据您的具体需求，您可以进一步探索
-MyBatis-Flex 的高级特性，如动态 SQL 构建、复杂查询和插件机制等。
-
-请注意，MyBatis-Flex 是一个假设的工具，具体的实现和配置可能会有所不同。请根据实际的 MyBatis-Flex 文档进行调整。

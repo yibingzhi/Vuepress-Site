@@ -1,10 +1,13 @@
 ---
+tags:
+  - Java
+  - 集合框架
+  - ArrayList
+  - List
 title: ArrayList详解
 createTime: 2025/04/19 18:46:37
-permalink: /JavaCollection/i8c1p9aq/
+permalink: /java/8fe8mu9l/
 ---
-
-# 一、ArrayList详解
 
 ## 1. ArrayList 是什么？
 

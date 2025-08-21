@@ -1,3 +1,8 @@
+---
+title: Java并发工具类详解教程
+createTime: 2025/08/18 09:55:33
+permalink: /java/huubztqe/
+---
 # Java并发工具类详解教程
 
 本文档详细介绍Java并发工具类，这些类位于`java.util.concurrent`包中，是Java并发编程的重要组成部分。

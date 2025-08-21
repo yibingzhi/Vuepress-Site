@@ -1,9 +1,13 @@
 ---
+tags:
+  - Java
+  - 集合框架
+  - Iterator
+  - 迭代器
 title: Iterator详解
 createTime: 2025/04/19 18:46:37
-permalink: /JavaCollection/hke8wshz/
+permalink: /java/t3xmkvro/
 ---
-
 #### 一、迭代器（Iterator）是什么？
 
 Iterator 是 Java 集合框架中用于**遍历集合元素**的标准接口，定义在 java.util.Iterator

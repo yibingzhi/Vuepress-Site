@@ -1,10 +1,15 @@
 ---
+tags:
+  - Java
+  - 集合框架
+  - HashSet
+  - HashMap
+  - Set
+  - Map
 title: HashSet & HashMap详解
 createTime: 2025/04/19 18:46:37
-permalink: /JavaCollection/un1qbrhg/
+permalink: /java/qmhp377r/
 ---
-
-# 一、HashSet 详解
 
 1.1 什么是 HashSet？
 

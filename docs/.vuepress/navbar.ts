@@ -7,49 +7,78 @@ export const zhNavbar = defineNavbarConfig([
     // { text: '归档', link: '/blog/archives/' },
 
     {
+        text: 'Java',
+        items: [
+            {text: 'Java ', link: '/notes/java/基础语法/java综合语法.md'},
+            // {text: 'Java 集合框架', link: '/notes/java/JavaCollection/README.md'},
+            // {text: 'Java 并发编程', link: '/notes/java/juc/Java并发工具类详解教程.md'},
+            // {text: 'Java 虚拟机', link: '/notes/java/jvm/JVM深入教程.md'},
+            {text: 'Spring Framework', link: '/notes/java/spring/SpringFramework详解'},
+            {text: 'SpringBoot', link: '/notes/java/SpringBoot/SpringBoot核心基础详解'},
+            {text: 'Spring Cloud', link: '/notes/java/微服务/SpringCloud微服务详解'},
+        ]
+    },
+    {
         text: '前端',
         items: [
-            {text: 'html', link: '/notes/前端/html.md'},
-            {text: 'css', link: '/notes/前端/css.md'},
+            {text: 'HTML', link: '/notes/前端/html.md'},
+            {text: 'CSS', link: '/notes/前端/css.md'},
             {text: 'JavaScript', link: '/notes/前端/js.md'},
-            {text: 'Vue', link: '/notes/前端/vue.md'},
+            {text: 'TypeScript', link: '/notes/前端/TypeScript详解.md'},
+            {text: 'Vue3', link: '/notes/前端/Vue3详解.md'},
+            // {text: '移动端开发', link: '/notes/前端/移动端跨平台详解.md'},
         ]
     },
-    {
-        text: 'java',
-        items: [
-            {text: 'java基础语法', link: '/notes/java/java综合语法.md'},
-            {text: 'javaIO流', link: '/notes/java/javaIO流.md'},
-            {text: 'java多线程', link: '/notes/java/java多线程.md'},
-            {text: 'java反射', link: '/notes/java/java反射.md'},
-            {text: 'java泛型', link: '/notes/java/Java泛型机制详解.md'},
-            {text: 'java异常', link: '/notes/java/Java异常机制详解.md'},
-            {text: 'java注解', link: '/notes/java/java注解机制详解.md'},
-            {text: 'java集合', link: '/notes/java/JavaCollection/用法示例.md'},
-        ]
-    },
-    {
-        text: 'Spring',
-        items: [
-            {text: 'SpringBoot集成', link: '/notes/java/SpringBoot/SpringBoot集成Mybatis.md'}
-        ]
-    },
-
     {
         text: '数据库',
         items: [
-            {text: 'mysql语法', link: '/notes/sql/mysql.md'},
-            {text: 'redis', link: '/notes/sql/redis.md'},
-            {text: 'mongoDB', link: '/notes/sql/mongoDB.md'},
-            {text: 'Elasticsearch', link: '/notes/sql/es.md'},
+            {text: 'MySQL', link: '/notes/数据库/关系型/mysql.md'},
+            {text: 'MySQL 性能优化', link: '/notes/数据库/关系型/MySQL性能优化详解.md'},
+            {text: 'Redis 基础', link: '/notes/数据库/NoSQL/Redis基础操作详解.md'},
+            {text: 'Redis 高级特性', link: '/notes/数据库/NoSQL/Redis高级特性详解.md'},
+            {text: 'MongoDB', link: '/notes/数据库/NoSQL/mongoDB.md'},
+            {text: 'Elasticsearch', link: '/notes/数据库/NoSQL/es.md'},
         ]
     },
-
+    {
+        text: '数据结构与算法',
+        items: [
+            {text: '数据结构', link: '/notes/数据结构与算法/数据结构详解.md'},
+            {text: '算法', link: '/notes/数据结构与算法/算法详解.md'},
+            // {text: 'LeetCode刷题指南', link: '/notes/数据结构与算法/LeetCode刷题指南.md'},
+        ]
+    },
+    // {
+    //     text: '中间件',
+    //     items: [
+    //         {text: 'RabbitMQ', link: '/notes/中间件/傻子都能懂的RabbitMQ教程.md'},
+    //     ]
+    // },
+    {
+        text: '开发规范',
+        items: [
+            {text: 'Java设计模式', link: '/notes/开发规范/Java设计模式教程.md'},
+            {text: '前端开发规范', link: '/notes/开发规范/前端开发规范.md'},
+            {text: 'Java开发规范', link: '/notes/开发规范/Java开发规范 .md'},
+        ]
+    },
     {
         text: 'AI',
         items: [
-            {text: 'SpringAI', link: '/notes/Ai/SpringAi笔记.md'},
-  
+            {text: 'Prompt工程', link: '/notes/Ai/prompt_工程师.md'},
+            {text: 'SSE流式输出', link: '/notes/Ai/SSE流式输出详解.md'},
+            {text: 'Spring AI', link: '/notes/Ai/SpringAi笔记.md'},
+            {text: 'LangChain', link: '/notes/Ai/LangChain详解.md'},
+            {text: 'LangGraph4j', link: '/notes/Ai/LangGraph4j详解.md'},
+
+        ]
+    },
+    {
+        text: '运维',
+        items: [
+            {text: 'Linux', link: '/notes/运维/Linux.md'},
+            {text: 'Nginx', link: '/notes/运维/nginx.md'},
+            // {text: 'Kubernetes', link: '/notes/运维/Kubernetes详解.md'},
         ]
     },
 
@@ -65,4 +94,3 @@ export const enNavbar = defineNavbarConfig([
         items: [{text: 'Demo', link: '/en/notes/demo/README.md'}]
     },
 ])
-

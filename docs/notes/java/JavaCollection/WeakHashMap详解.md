@@ -1,9 +1,13 @@
 ---
+tags:
+  - Java
+  - 集合框架
+  - WeakHashMap
+  - Map
 title: WeakHashMap详解
 createTime: 2025/04/19 18:46:37
-permalink: /JavaCollection/sp8zklld/
+permalink: /java/uvuibu8e/
 ---
-
 #### 一、WeakHashMap 是什么？
 
 WeakHashMap 是 Java 集合框架中的一种键值对存储结构，继承自 AbstractMap，实现了 Map 接口。它是一个基于**哈希表**的映射，**键
@@ -402,7 +406,7 @@ public class WeakHashMapExample {
 3. **与 HashMap 的对比**：
 
    | 特性      | WeakHashMap            | HashMap      |
-               | --------- | ---------------------- | ------------ |
+                     | --------- | ---------------------- | ------------ |
    | 键引用    | 弱引用（可被 GC 回收） | 强引用       |
    | 用途      | 缓存、临时存储         | 通用键值存储 |
    | 性能      | O(1)（平均）           | O(1)（平均） |

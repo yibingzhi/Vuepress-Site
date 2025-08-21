@@ -1,10 +1,13 @@
 ---
+tags:
+  - Java
+  - 集合框架
+  - Stack
+  - Queue
 title: Stack & Queue详解
 createTime: 2025/04/19 18:46:37
-permalink: /JavaCollection/ove4j1a6/
+permalink: /java/6p50xudy/
 ---
-
-## 一、Stack 详解
 
 #### 1.1 什么是 Stack？
 

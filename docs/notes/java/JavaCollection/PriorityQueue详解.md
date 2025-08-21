@@ -1,9 +1,13 @@
 ---
+tags:
+  - Java
+  - 集合框架
+  - PriorityQueue
+  - Queue
 title: PriorityQueue详解
 createTime: 2025/04/19 18:46:37
-permalink: /JavaCollection/noptweqf/
+permalink: /java/xhlp7jqv/
 ---
-
 #### 一、PriorityQueue 是什么？
 
 PriorityQueue 是 Java 集合框架中的一种队列类，基于**最小堆**（Min-Heap）实现，实现了 Queue 接口。它是一个**优先级队列**，元素按照

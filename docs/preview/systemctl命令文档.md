@@ -1,10 +1,8 @@
 ---
 title: systemctl命令文档
 createTime: 2024/12/06 16:12:31
-permalink: /article/ebdofn5f/
+permalink: /article/n8tjdiu6/
 ---
-以下是关于 `systemctl` 命令的简要文档：
-
 # systemctl 命令文档
 
 ## 概述
@@ -73,5 +71,3 @@ systemctl disable tomcat
 
 - 需要以管理员权限（如 root 用户或使用 sudo）运行 `systemctl` 命令
 - 某些命令可能需要在服务名之前加上服务类型前缀，如 `service@mysql.service`
-
-这是一个简要的 `systemctl` 命令文档，希望能帮助您更好地理解和使用 `systemctl` 命令。如果您需要更详细的信息或有其他问题，请随时告诉我。

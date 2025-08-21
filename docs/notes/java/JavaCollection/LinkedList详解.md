@@ -1,12 +1,13 @@
 ---
+tags:
+  - Java
+  - 集合框架
+  - LinkedList
+  - List
 title: LinkedList详解
 createTime: 2025/04/19 18:46:37
-permalink: /JavaCollection/29j5ix5s/
+permalink: /java/hs1wmymc/
 ---
-
-以下是优化后的 LinkedList 详解笔记，修正了可能导致网页显示报错的格式问题，并提升了结构清晰度和可读性：
-
-# LinkedList 详解
 
 ## 一、LinkedList 是什么？
 
@@ -456,7 +457,7 @@ private class ListItr implements ListIterator<E> {
 4. **与 ArrayList 的对比**
 
    | 特性 | LinkedList | ArrayList |
-            |------|------------|-----------|
+                     |------|------------|-----------|
    | 底层结构 | 双向链表 | 动态数组 |
    | 随机访问 | 慢（O(n)） | 快（O(1)） |
    | 插入/删除（中间） | 快（O(1)，已知节点） | 慢（O(n)，需移动元素） |

@@ -1,9 +1,8 @@
 ---
 title: SpringBoot集成RabbitMq
 createTime: 2024/11/16 21:27:31
-permalink: /SpringBoot/cqogedn6/
+permalink: /SpringBoot/SpringBoot集成/qvvnupng/
 ---
-以下是一份Spring Boot集成RabbitMQ的笔记，详细介绍了从环境准备到具体功能实现的各个步骤：
 
 ### 一、前提准备
 
@@ -206,6 +205,3 @@ public class RabbitMqApplication {
 - **生产者测试**：可以在项目的其他地方（比如某个控制器类中）注入`RabbitMQProducer`，然后调用`send`
   方法，传入合适的交换机、路由键和消息内容来发送消息，观察RabbitMQ管理界面中相应队列的消息数量是否增加等情况来验证消息是否发送成功。
 - **消费者测试**：查看控制台输出或者在`receiveMessage`方法中添加断点等方式，验证当有消息发送到对应的队列时，消费者是否能正确接收到并执行相应的业务逻辑。
-
-以上就是Spring Boot集成RabbitMQ的基本笔记内容，你可以根据实际项目需求进一步拓展功能，比如使用不同类型的交换机实现更复杂的消息路由，处理消息的确认和重试机制等。 
-

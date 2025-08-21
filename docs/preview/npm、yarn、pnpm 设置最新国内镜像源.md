@@ -1,12 +1,13 @@
 ---
-title: npm、yarn、pnpm 设置最新国内镜像源
-createTime: 2024/11/09 22:56:54
-permalink: /article/0icmtj6y/
 tags:
   - npm
   - yarn
   - pnpm
+title: npm、yarn、pnpm 设置最新国内镜像源
+createTime: 2024/11/09 22:56:54
+permalink: /article/udp5zztc/
 ---
+
 ## npm
 
 ```BASH

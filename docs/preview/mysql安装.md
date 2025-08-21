@@ -4,8 +4,6 @@ createTime: 2024/11/16 20:46:08
 permalink: /article/zxkphogl/
 ---
 
-# MySQL 安装与配置
-
 ## 一、Windows 系统安装
 
 ### 推荐：使用压缩包安装
@@ -17,7 +15,7 @@ permalink: /article/zxkphogl/
     - [历史旧版本下载](https://downloads.mysql.com/archives/community/)
     - [新版本下载](https://dev.mysql.com/downloads/mysql/)
 
-   ![下载页面截图](img/091d76077a1e0c165e8c97de8902c0dc.png)
+   ![下载页面截图](/preview/img/091d76077a1e0c165e8c97de8902c0dc.png)
 
 2. **创建 `my.ini` 配置文件**
 
@@ -66,13 +64,13 @@ permalink: /article/zxkphogl/
    HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\你的服务名
    ```
 
-   ![注册表截图](img/f7db3e23d7a46cd69ea1fc454d66ba29.png)
+   ![注册表截图](/preview/img/f7db3e23d7a46cd69ea1fc454d66ba29.png)
 
 5. **启动 MySQL 服务**
 
    使用 Windows 服务管理器启动 MySQL 服务。可以安装多个版本，分别配置不同的服务名。
 
-   ![服务管理器截图](img/a5e22417e85a60aae21e90ffd278ed6d.png)
+   ![服务管理器截图](/preview/img/a5e22417e85a60aae21e90ffd278ed6d.png)
 
 6. **修改密码**
 
@@ -113,7 +111,7 @@ permalink: /article/zxkphogl/
    systemctl status mysql
    ```
 
-   ![image-20241116201457434](.\img\image-20241116201457434.png)
+   ![image-20241116201457434](/preview/img/image-20241116201457434.png)
 
    如果没有启动，使用以下命令启动：
 
@@ -129,7 +127,7 @@ permalink: /article/zxkphogl/
    mysql -u root -p
    ```
 
-   ![image-20241116201625339](.\img\image-20241116201625339.png)
+   ![image-20241116201625339](/preview/img/image-20241116201625339.png)
 
    如果没有设置密码，可以通过以下命令查看默认用户名和密码：
 
@@ -137,7 +135,7 @@ permalink: /article/zxkphogl/
    sudo cat /etc/mysql/debian.cnf
    ```
 
-   ![image-20241116202047133](.\img\image-20241116202047133.png)
+   ![image-20241116202047133](/preview/img/image-20241116202047133.png)
 
 5. **修改 `root` 密码**
 
@@ -180,7 +178,7 @@ permalink: /article/zxkphogl/
    SELECT user, host FROM user WHERE user = 'root';
    ```
 
-   ![image-20241116203529828](.\img\image-20241116203529828.png)
+   ![image-20241116203529828](/preview/img/image-20241116203529828.png)
 
    如果 `host` 不是 `%`，使用以下命令更新：
 
@@ -198,4 +196,4 @@ permalink: /article/zxkphogl/
 
    将 `bind-address` 修改为 `0.0.0.0`
 
-![](.\img\3.png)
+![](/preview/img/3.png)

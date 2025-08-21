@@ -1,6 +1,9 @@
-# Java网络编程教程
+---
+title: Java网络编程教程
+createTime: 2025/08/18 09:55:33
+permalink: /java/rli40g2k/
+---
 
-本文档配合`com.ibz.network`包中的Java文件，详细介绍Java网络编程的基本概念和实现方式。
 
 ## 网络编程基础概念
 
@@ -206,51 +209,3 @@ socket.setSoTimeout(5000); // 5秒超时
 ### 5. 错误处理
 实现完善的错误处理机制，提供有意义的错误信息。
 
-## 包结构说明
-
-为了更好地组织代码，我们将网络编程相关的类放在`com.ibz.network`包中：
-
-```
-src/main/java/com/ibz/network/
-├── Server.java      // TCP服务器示例
-├── Client.java      // TCP客户端示例
-├── UDPServer.java   // UDP服务器示例
-└── UDPClient.java   // UDP客户端示例
-```
-
-## 运行示例
-
-### 运行TCP示例
-
-1. 首先启动服务器：
-```bash
-mvn exec:java -Dexec.mainClass="com.ibz.网络编程.network.Server"
-```
-
-2. 然后启动客户端：
-```bash
-mvn exec:java -Dexec.mainClass="com.ibz.网络编程.network.Client"
-```
-
-### 运行UDP示例
-
-1. 首先启动UDP服务器：
-```bash
-mvn exec:java -Dexec.mainClass="com.ibz.网络编程.network.UDPServer"
-```
-
-2. 然后启动UDP客户端：
-```bash
-mvn exec:java -Dexec.mainClass="com.ibz.网络编程.network.UDPClient"
-```
-
-## 总结
-
-Java网络编程提供了强大的功能来构建网络应用程序：
-
-1. **TCP编程**：适用于需要可靠数据传输的应用
-2. **UDP编程**：适用于实时性要求高的应用
-3. **多线程处理**：支持并发客户端连接
-4. **资源管理**：正确管理网络资源和异常处理
-
-掌握网络编程技能对于Java开发者来说非常重要，它不仅能够实现程序间的通信，还能构建分布式系统和Web应用。在实际开发中，应根据具体需求选择合适的协议和实现方式，并遵循最佳实践来编写高效、安全的网络程序。

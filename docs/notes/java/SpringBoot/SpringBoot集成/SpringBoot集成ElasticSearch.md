@@ -1,8 +1,9 @@
 ---
 title: SpringBoot集成ElasticSearch
 createTime: 2024/11/13 21:57:26
-permalink: /SpringBoot/nwof0eza/
+permalink: /SpringBoot/SpringBoot集成/c4640cbv/
 ---
+
 ### 前提条件
 
 1. **Java Development Kit (JDK)**: 确保安装了 JDK 8 或更高版本。
