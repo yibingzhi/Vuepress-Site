@@ -1,9 +1,8 @@
 ---
 title: SpringBoot集成ElasticSearch
 createTime: 2024/11/13 21:57:26
-permalink: /SpringBoot/frwef5qf/
+permalink: /SpringBoot/nwof0eza/
 ---
-
 ### 前提条件
 
 1. **Java Development Kit (JDK)**: 确保安装了 JDK 8 或更高版本。
@@ -17,8 +16,8 @@ permalink: /SpringBoot/frwef5qf/
 1. 打开 [Spring Initializr](https://start.spring.io/)。
 2. 填写项目元数据（如 Group、Artifact）。
 3. 选择依赖项：
-   - Spring Web
-   - Spring Data Elasticsearch
+    - Spring Web
+    - Spring Data Elasticsearch
 
 点击“Generate”按钮下载项目压缩包，并解压到你的工作目录。
 
@@ -27,10 +26,11 @@ permalink: /SpringBoot/frwef5qf/
 在 `pom.xml` 文件中，确保添加了 Elasticsearch 客户端的依赖：
 
 ```xml
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-		</dependency>
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+</dependency>
 ```
 
 ### 配置 Elasticsearch 连接
@@ -166,14 +166,13 @@ public class ProductController {
 
 1. 启动 Spring Boot 应用程序。
 2. 使用 Postman 或其他 HTTP 客户端测试 API：
-   - **POST** `http://localhost:8080/products` 添加产品。
-   
-   - **GET** `http://localhost:8080/products/{id}` 获取特定产品。
-   
-   - **GET** `http://localhost:8080/products/search?name=productName` 根据名称搜索产品。
-   
-   - **GET** `http://localhost:8080/products/search2?name=productName` 根据名称搜索产品。
+    - **POST** `http://localhost:8080/products` 添加产品。
+
+    - **GET** `http://localhost:8080/products/{id}` 获取特定产品。
+
+    - **GET** `http://localhost:8080/products/search?name=productName` 根据名称搜索产品。
+
+    - **GET** `http://localhost:8080/products/search2?name=productName` 根据名称搜索产品。
 
 
 
-   

@@ -1,16 +1,17 @@
 ---
 title: SpringBoot集成Mybatis-flex
 createTime: 2024/11/16 21:34:31
-permalink: /SpringBoot/nuvkjclc/
+permalink: /SpringBoot/7riv4nbw/
 ---
-MyBatis-Flex 是 MyBatis 的一个增强工具，旨在提供更灵活的 SQL 构建和查询功能。它可以帮助开发者更高效地进行数据库操作。以下是一个关于在 Spring Boot 项目中集成 MyBatis-Flex 的详细教程。
+MyBatis-Flex 是 MyBatis 的一个增强工具，旨在提供更灵活的 SQL 构建和查询功能。它可以帮助开发者更高效地进行数据库操作。以下是一个关于在
+Spring Boot 项目中集成 MyBatis-Flex 的详细教程。
 
 ### 一、准备工作
 
 1. **创建一个 Spring Boot 项目**。您可以使用 Spring Initializr 创建一个新的 Spring Boot 项目，并选择以下依赖：
 
-   - Spring Web
-   - MySQL Driver（如果使用 MySQL 数据库）
+    - Spring Web
+    - MySQL Driver（如果使用 MySQL 数据库）
 
 2. **准备数据库**。确保您有一个可用的数据库，并创建必要的表。
 
@@ -19,6 +20,7 @@ MyBatis-Flex 是 MyBatis 的一个增强工具，旨在提供更灵活的 SQL �
 首先，您需要在项目中添加 MyBatis-Flex 的依赖。假设 MyBatis-Flex 已经发布到 Maven 中央仓库，您可以在 `pom.xml` 中添加如下依赖：
 
 ```xml
+
 <dependency>
     <groupId>com.mycompany</groupId>
     <artifactId>mybatis-flex</artifactId>
@@ -183,6 +185,7 @@ public class UserController {
 - 创建用户：`POST /api/users`
 - 删除用户：`DELETE /api/users/{id}`
 
-通过这个教程，您可以在 Spring Boot 项目中集成 MyBatis-Flex，并利用其增强功能来简化数据库操作。根据您的具体需求，您可以进一步探索 MyBatis-Flex 的高级特性，如动态 SQL 构建、复杂查询和插件机制等。
+通过这个教程，您可以在 Spring Boot 项目中集成 MyBatis-Flex，并利用其增强功能来简化数据库操作。根据您的具体需求，您可以进一步探索
+MyBatis-Flex 的高级特性，如动态 SQL 构建、复杂查询和插件机制等。
 
 请注意，MyBatis-Flex 是一个假设的工具，具体的实现和配置可能会有所不同。请根据实际的 MyBatis-Flex 文档进行调整。

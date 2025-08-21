@@ -1,10 +1,8 @@
 ---
 title: SpringBoot集成阿里云oss
 createTime: 2024/11/16 21:34:49
-permalink: /SpringBoot/5gwpcu37/
+permalink: /SpringBoot/h08bgjvd/
 ---
-在 Spring Boot 项目中集成阿里云 OSS（对象存储服务）可以帮助您实现文件的上传、下载和管理。阿里云 OSS 是一种云存储服务，提供了高可靠性、高可用性和高安全性的存储解决方案。以下是一个关于如何在 Spring Boot 项目中集成阿里云 OSS 的详细教程。
-
 ### 一、准备工作
 
 1. **创建阿里云账号并开通 OSS 服务**：如果您还没有阿里云账号，请先注册一个账号，并确保已经开通了 OSS 服务。
@@ -18,6 +16,7 @@ permalink: /SpringBoot/5gwpcu37/
 在 `pom.xml` 文件中添加阿里云 OSS SDK 的依赖：
 
 ```xml
+
 <dependency>
     <groupId>com.aliyun.oss</groupId>
     <artifactId>aliyun-sdk-oss</artifactId>
@@ -170,4 +169,5 @@ public class OssController {
 - 上传文件：`POST /oss/upload`，通过表单数据上传文件。
 - 下载文件：`GET /oss/download/{fileName}`，通过文件名下载文件。
 
-通过这个教程，您可以在 Spring Boot 项目中集成阿里云 OSS，并利用其对象存储功能来处理文件的上传和下载。根据您的具体需求，您可以进一步探索 OSS 的高级特性，如访问控制、生命周期管理和静态网站托管等。
+通过这个教程，您可以在 Spring Boot 项目中集成阿里云 OSS，并利用其对象存储功能来处理文件的上传和下载。根据您的具体需求，您可以进一步探索
+OSS 的高级特性，如访问控制、生命周期管理和静态网站托管等。
