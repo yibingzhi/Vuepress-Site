@@ -4,19 +4,22 @@ createTime: 2025/08/16 14:24:17
 permalink: /微服务/xmoqaqya/
 ---
 
+::: tip 保鲜说明（2026-08）
+Gateway 仍是官方推荐网关。新项目用 **Spring Boot 3 + 对应 Spring Cloud**；服务发现优先 **Nacos**。文中 “Boot 2.0 / Eureka” 为历史表述。
+:::
+
 ## 什么是SpringCloud Gateway
 
-SpringCloud Gateway是Spring Cloud官方推出的第二代网关框架，基于Spring 5.0、Spring Boot 2.0和Project
-Reactor等技术开发。它旨在为微服务架构提供一种简单而有效的统一API路由管理方式。
+SpringCloud Gateway是Spring Cloud官方推出的第二代网关框架，基于 **Spring WebFlux（响应式）** 与当前 Spring Boot / Spring Cloud 发行版构建（早期文档常写 Boot 2.0）。它旨在为微服务架构提供一种简单而有效的统一API路由管理方式。
 
 ### 主要特性
 
-- **基于Spring Boot 2.x和Spring WebFlux**：响应式编程，支持异步非阻塞
+- **基于 Spring WebFlux**：响应式编程，支持异步非阻塞（Boot 3 同样适用）
 - **动态路由**：支持动态配置路由规则
 - **过滤器链**：支持请求和响应的修改
-- **集成Spring Cloud生态**：与Eureka、Consul、Nacos等无缝集成
-- **限流熔断**：内置限流和熔断功能
-- **安全认证**：支持OAuth2、JWT等认证方式
+- **集成 Spring Cloud 生态**：与 Nacos、Consul、Eureka 等注册中心集成
+- **限流熔断**：可结合 Sentinel / Resilience4j 等
+- **安全认证**：支持 OAuth2、JWT 等认证方式
 
 ## 核心概念
 

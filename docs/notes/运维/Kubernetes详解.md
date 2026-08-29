@@ -5,6 +5,10 @@ permalink: /article/ga4jv2ik/
 ---
 # Kubernetes详解
 
+::: tip 保鲜说明（2026-08）
+文中升级示例若出现 `kubeadm=1.24.0` 等版本号，**请替换为当前发行版支持的版本**（1.24 已 EOL）。安装/升级以 [kubernetes.io](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/) 为准。
+:::
+
 ## 目录
 - [Kubernetes简介](#kubernetes简介)
 - [核心概念](#核心概念)

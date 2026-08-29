@@ -104,7 +104,7 @@ const zhJava = defineNoteConfig({
 })
 
 const zhSpring = defineNoteConfig({
-    dir: 'java/框架技术',
+    dir: 'java/spring',
     link: '/spring',
     sidebar: [
         {
@@ -131,9 +131,7 @@ const zhSpringBoot = defineNoteConfig({
                 'SpringSecurity详解',
                 'SpringBoot全局异常处理',
                 'SpringBoot统一接口封装',
-
                 'SpringBoot常见注解',
-                'SpringSecurity详解'
             ],
         },
         {
@@ -335,15 +333,9 @@ export const zhNotes = defineNotesConfig({
 
 /* =================== locale: en-US ======================= */
 
-const enDemoNote = defineNoteConfig({
-    dir: 'en/notes/demo',
-    link: '/en/demo',
-    sidebar: ['', 'foo', 'bar'],
-})
-
 export const enNotes = defineNotesConfig({
     dir: 'en/notes',
     link: '/en/',
-    notes: [enDemoNote],
+    notes: [],
 })
 

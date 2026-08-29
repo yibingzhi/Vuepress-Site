@@ -4,6 +4,26 @@ createTime: 2025/08/16 16:26:22
 permalink: /微服务/bw20j0gp/
 ---
 
+::: danger 保鲜说明（2026-08）· 历史文档
+**Spring Cloud Sleuth 不支持 Spring Boot 3**。Boot 3 请改用 **Micrometer Tracing**（+ Zipkin / OpenTelemetry）。  
+本文保留 Boot 2 时代 Sleuth 写法，仅供迁移对照，**不要照抄到 Boot 3 工程**。
+
+Boot 3 最小依赖示意：
+
+```xml
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-tracing-bridge-brave</artifactId>
+</dependency>
+<dependency>
+    <groupId>io.zipkin.reporter2</groupId>
+    <artifactId>zipkin-reporter-brave</artifactId>
+</dependency>
+```
+
+详见 [Micrometer Tracing](https://docs.micrometer.io/tracing/reference/)。
+:::
+
 ## 什么是SpringCloud Sleuth
 
 SpringCloud Sleuth是Spring Cloud的分布式链路追踪解决方案，它可以帮助开发者追踪微服务架构中的请求调用链路，提供完整的调用链监控和性能分析。

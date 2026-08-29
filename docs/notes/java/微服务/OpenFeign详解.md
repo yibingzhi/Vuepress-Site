@@ -4,6 +4,11 @@ createTime: 2025/08/16 16:28:28
 permalink: /微服务/wtuoaqus/
 ---
 
+::: warning 保鲜说明（2026-08）
+OpenFeign 本身仍在用，但 **Netflix Ribbon / Hystrix 已从 Spring Cloud 主线移除**。  
+现行组合：**Spring Cloud LoadBalancer**（负载均衡）+ **Sentinel / Resilience4j**（熔断降级）。下文若出现 Ribbon/Hystrix，仅作旧项目对照。
+:::
+
 ## 什么是OpenFeign
 
 OpenFeign是Spring Cloud提供的声明式HTTP客户端，它简化了微服务间的HTTP调用。通过注解的方式，开发者可以像调用本地方法一样调用远程服务，无需手动编写HTTP请求代码。
@@ -11,8 +16,8 @@ OpenFeign是Spring Cloud提供的声明式HTTP客户端，它简化了微服务�
 ### 主要特性
 
 - **声明式HTTP客户端**：通过注解定义HTTP接口
-- **自动负载均衡**：集成Ribbon实现负载均衡
-- **熔断降级**：集成Hystrix或Sentinel实现熔断
+- **自动负载均衡**：集成 **Spring Cloud LoadBalancer**（旧文常写 Ribbon，已过时）
+- **熔断降级**：集成 **Sentinel** 或 **Resilience4j**（旧文常写 Hystrix，已过时）
 - **请求重试**：支持请求失败后的重试机制
 - **请求压缩**：支持请求和响应的压缩
 - **日志记录**：详细的请求和响应日志
@@ -29,13 +34,13 @@ OpenFeign是Spring Cloud提供的声明式HTTP客户端，它简化了微服务�
 
 - 自动选择服务实例
 - 支持多种负载均衡策略
-- 集成Ribbon实现
+- 现行实现：`spring-cloud-starter-loadbalancer`（不要再引 Netflix Ribbon）
 
 ### 3. 熔断降级
 
 - 服务调用失败时的降级处理
 - 支持超时和异常熔断
-- 集成Hystrix或Sentinel
+- 现行推荐：Sentinel 或 Resilience4j（Hystrix 已停止演进）
 
 ## 快速开始
 
@@ -46,6 +51,10 @@ OpenFeign是Spring Cloud提供的声明式HTTP客户端，它简化了微服务�
 <dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-loadbalancer</artifactId>
 </dependency>
 
 <dependency>
@@ -392,10 +401,14 @@ public class UserServiceFallback implements UserServiceClient {
 }
 ```
 
-### 2. 集成Hystrix
+### 2. 集成 Hystrix（历史 · 勿用于新项目）
+
+::: danger 已废弃
+`spring-cloud-starter-netflix-hystrix` 与 `@HystrixCommand` 仅适用于遗留 Boot 2 项目。新项目请用 Feign `fallback` / `fallbackFactory` + **Sentinel**（见同目录 [Sentinel详解](./Sentinel详解.md)）或 Resilience4j。
+:::
 
 ```xml
-
+<!-- 仅旧项目对照，禁止新工程引入 -->
 <dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
@@ -407,7 +420,7 @@ public class UserServiceFallback implements UserServiceClient {
 public interface UserServiceClient {
     
     @GetMapping("/user/{id}")
-    @HystrixCommand(fallbackMethod = "getUserByIdFallback")
+    @HystrixCommand(fallbackMethod = "getUserByIdFallback") // 历史写法
     User getUserById(@PathVariable("id") Long id);
 }
 
@@ -422,29 +435,14 @@ public class UserServiceFallback implements UserServiceClient {
 }
 ```
 
-### 3. 熔断配置
+### 3. 熔断配置（现行：Sentinel；下列 Hystrix 配置仅历史）
 
 ```yaml
-# application.yml
+# application.yml — 现行推荐只开 Sentinel
 feign:
-  hystrix:
-    enabled: true
   sentinel:
     enabled: true
-
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 5000
-        timeout:
-          enabled: true
-      circuitBreaker:
-        requestVolumeThreshold: 20
-        errorThresholdPercentage: 50
-        sleepWindowInMilliseconds: 5000
+  # hystrix.enabled 仅旧项目
 ```
 
 ## 最佳实践

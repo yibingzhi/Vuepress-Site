@@ -24,8 +24,8 @@ permalink: /SpringBoot/SpringBoot集成/vox25ufw/
 </dependency>
         <!-- MySQL数据库驱动依赖 -->
 <dependency>
-<groupId>mysql</groupId>
-<artifactId>mysql-connector-java</artifactId>
+<groupId>com.mysql</groupId>
+<artifactId>mysql-connector-j</artifactId>
 <version>8.0.34</version>
 </dependency>
 ```
@@ -35,7 +35,7 @@ permalink: /SpringBoot/SpringBoot集成/vox25ufw/
 
 ```groovy
 implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
-implementation 'mysql:mysql-connector-java:8.0.34'
+implementation 'com.mysql:mysql-connector-j:8.0.34'
 ```
 
 ### 三、配置数据库连接信息

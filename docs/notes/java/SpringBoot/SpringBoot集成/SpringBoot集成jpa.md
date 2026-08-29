@@ -4,6 +4,10 @@ createTime: 2024/11/16 21:31:15
 permalink: /SpringBoot/SpringBoot集成/doixt2s0/
 ---
 
+::: tip 保鲜说明（2026-08）
+面向 **Spring Boot 3**：包名用 `jakarta.persistence.*`，驱动用 `com.mysql:mysql-connector-j`。
+:::
+
 ### 一、准备工作
 
 1. **创建一个 Spring Boot 项目**。您可以使用 Spring Initializr 创建一个新的 Spring Boot 项目，并选择以下依赖：
@@ -34,10 +38,9 @@ permalink: /SpringBoot/SpringBoot集成/doixt2s0/
 如果使用 MySQL，请添加：
 
 ```xml
-
 <dependency>
-    <groupId>mysql</groupId>
-    <artifactId>mysql-connector-java</artifactId>
+    <groupId>com.mysql</groupId>
+    <artifactId>mysql-connector-j</artifactId>
     <scope>runtime</scope>
 </dependency>
 ```
@@ -89,10 +92,10 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 定义一个 Java 类来表示数据库中的表，并使用 JPA 注解进行映射。
 
 ```java
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class User {

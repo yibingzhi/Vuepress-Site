@@ -615,8 +615,8 @@ public List<Object> handleResultSets(Statement stmt) throws SQLException {
 </dependency>
 
 <dependency>
-<groupId>mysql</groupId>
-<artifactId>mysql-connector-java</artifactId>
+<groupId>com.mysql</groupId>
+<artifactId>mysql-connector-j</artifactId>
 <version>8.0.33</version>
 </dependency>
 ```
