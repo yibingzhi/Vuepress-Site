@@ -31,6 +31,7 @@ const zhJava = defineNoteConfig({
                 '国际化详解教程',
                 'Java性能监控和调优教程',
                 'java缓存Caffeine详解',
+                '日志体系SLF4J与Logback详解',
             ],
         },
         {
@@ -38,8 +39,8 @@ const zhJava = defineNoteConfig({
             prefix: '新特性/',
             items: [
                 'Java17与21新特性详解',
-                'Java模块系统详解教程',
                 '函数式编程深入教程',
+                'Java模块系统详解教程',
             ],
         },
         {
@@ -49,6 +50,7 @@ const zhJava = defineNoteConfig({
                 'JavaWeb开发教程',
                 'Java数据库编程教程',
                 'Java网络编程教程',
+                'Netty入门详解',
             ],
         },
         {
@@ -73,6 +75,7 @@ const zhJava = defineNoteConfig({
             items: [
                 'Java并发工具类详解教程',
                 '锁机制详解教程',
+                '线程池与CompletableFuture详解',
             ],
         },
         {
@@ -89,6 +92,7 @@ const zhJava = defineNoteConfig({
             prefix: '容器化/',
             items: [
                 'Docker容器化详解',
+                'DockerCompose详解',
             ],
         },
         {
@@ -125,6 +129,7 @@ const zhSpringBoot = defineNoteConfig({
             prefix: '',
             items: [
                 'SpringBoot核心基础详解',
+                'SpringBoot3迁移指南',
                 'SpringSecurity详解',
                 'JWT认证实战',
                 'SpringBoot全局异常处理',
@@ -172,6 +177,7 @@ const zhSpringCloud = defineNoteConfig({
                 'RabbitMQ详解',
                 'Kafka详解',
                 '分布式锁与缓存一致性',
+                '消息幂等与最终一致性',
             ],
         },
     ],
@@ -182,15 +188,18 @@ const zhFrontend = defineNoteConfig({
     link: '/frontend',
     sidebar: [
         {
-            text: '前端基础',
+            text: '前端',
             prefix: '',
             items: [
                 'html',
                 'css',
+                'CSS布局现代指南',
                 'js',
+                'HTTP与浏览器网络详解',
                 'TypeScript详解',
                 'Vite工程化详解',
                 'Vue3详解',
+                'VueRouter详解',
                 'Pinia状态管理详解',
                 'vue',
                 '移动端跨平台详解',
@@ -209,6 +218,7 @@ const zhDatabase = defineNoteConfig({
             items: [
                 'mysql',
                 'MySQL性能优化详解',
+                'MySQL事务与锁详解',
                 'PostgreSQL基础',
             ],
         },
@@ -218,6 +228,7 @@ const zhDatabase = defineNoteConfig({
             items: [
                 'Redis基础操作详解',
                 'Redis高级特性详解',
+                'Redis缓存实战模式',
                 'mongoDB',
                 'es',
             ],
@@ -253,6 +264,7 @@ const zhAI = defineNoteConfig({
                 'LangChain详解',
                 'LangGraph4j详解',
                 'RAG检索增强生成详解',
+                'ToolCalling与FunctionCalling详解',
             ],
         },
     ],
@@ -269,6 +281,7 @@ const zhAlgorithm = defineNoteConfig({
                 '数据结构详解',
                 '算法详解',
                 'LeetCode刷题指南',
+                '面试常考算法题型',
             ],
         },
     ],
@@ -287,6 +300,8 @@ const zhDevelopmentStandards = defineNoteConfig({
                 '前端开发规范',
                 'REST接口设计规范',
                 'Maven与Gradle详解',
+                '单元测试JUnit5详解',
+                '代码评审与ConventionalCommits',
             ],
         },
     ],
@@ -301,9 +316,12 @@ const zhDevOps = defineNoteConfig({
             prefix: '',
             items: [
                 'Linux',
+                'Shell脚本实战',
                 'nginx',
                 'Kubernetes详解',
                 'Git工作流详解',
+                'GitHubActionsCI详解',
+                'Prometheus与Grafana详解',
             ],
         },
     ],
@@ -326,8 +344,6 @@ export const zhNotes = defineNotesConfig({
         zhDevOps,
     ],
 })
-
-/* =================== locale: en-US ======================= */
 
 export const enNotes = defineNotesConfig({
     dir: 'en/notes',
