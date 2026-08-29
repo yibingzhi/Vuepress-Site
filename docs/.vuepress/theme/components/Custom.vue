@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
-const message = ref('Hello World!')
+// Reserved for optional home widgets. Demo "Hello World" removed.
 </script>
 
 <template>
-  <div class="my-custom-content">
-    {{ message }}
-  </div>
+  <div class="site-custom-slot" hidden aria-hidden="true" />
 </template>

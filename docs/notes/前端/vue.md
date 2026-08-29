@@ -1,5 +1,5 @@
 ---
-title: Vue 2 历史对照（已过时）
+title: Vue 2 历史对照
 createTime: 2024/11/16 21:14:00
 permalink: /article/vz5a9xri/
 tags:
