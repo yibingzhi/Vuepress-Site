@@ -4,56 +4,65 @@ createTime: 2024/11/16 21:27:31
 permalink: /SpringBoot/SpringBoot集成/qvvnupng/
 ---
 
-### 一、前提准备
+::: tip 保鲜说明（2026-08）
+面向 **Spring Boot 3.x**：使用 `spring-boot-starter-amqp`，监听器确认模式推荐 **手动 ACK**；JSON 消息体用 `Jackson2JsonMessageConverter`。
+:::
 
-1. **安装RabbitMQ**
-    - **Linux系统**：可以通过官网提供的安装包（如`.deb`或`.rpm`格式，根据对应Linux发行版选择）进行安装，安装完成后启动服务。例如在Ubuntu系统下，使用
-      `sudo apt-get install rabbitmq-server`命令安装，然后通过`sudo service rabbitmq-server start`启动服务。
-    - **Windows系统**：下载Windows版本的安装包，按照安装向导进行安装，安装后在服务中启动RabbitMQ服务。
-    - **Docker方式（可选）**：如果熟悉Docker，也可以使用`docker pull rabbitmq`拉取镜像，再通过`docker run`
-      命令启动容器来运行RabbitMQ服务。
-2. **RabbitMQ管理界面（可选但推荐）**：
-   安装完成后，默认情况下RabbitMQ没有开启管理界面，可通过命令（如在Linux下使用
-   `sudo rabbitmq-plugins enable rabbitmq_management`）开启管理插件，之后通过浏览器访问`http://[RabbitMQ服务器IP地址]:15672`
-   （默认端口是15672），使用默认账号`guest`（密码也是`guest`，生产环境建议修改）登录管理界面，可方便地查看队列、交换机等信息以及进行相关配置管理。
+## 一、RabbitMQ 核心概念
 
-### 二、创建Spring Boot项目
+RabbitMQ 是 AMQP 协议的消息中间件，核心组件：
 
-通过Spring Initializr（例如在`https://start.spring.io/`网站）创建Spring Boot项目，选择必要的依赖，至少要包含`Spring AMQP
-`依赖（它为Spring Boot集成RabbitMQ提供了基础支持），也可按需添加如`Spring Web`等其他依赖方便后续接口测试等操作，然后将项目导入到常用的开发工具（如Intellij
-IDEA、Eclipse等）中。
+```
+Producer → Exchange → (Binding + Routing Key) → Queue → Consumer
+```
 
-### 三、添加依赖
+| 组件 | 说明 |
+|------|------|
+| **Producer** | 消息发送方 |
+| **Exchange** | 交换机，按规则路由消息到队列 |
+| **Queue** | 消息队列，存储待消费消息 |
+| **Binding** | 交换机与队列的绑定关系（含 routing key） |
+| **Consumer** | 消息消费方 |
 
-- **Maven项目（`pom.xml`）**：
+### 1.1 交换机类型
+
+| 类型 | 路由规则 | 典型场景 |
+|------|---------|---------|
+| **Direct** | routing key 完全匹配 | 点对点、按业务类型分发 |
+| **Fanout** | 忽略 routing key，广播到所有绑定队列 | 广播通知 |
+| **Topic** | routing key 模式匹配（`*` 一词，`#` 多词） | 日志分级、多订阅 |
+| **Headers** | 按消息头匹配 | 较少用 |
+
+---
+
+## 二、环境准备
+
+### 2.1 Docker 启动（推荐）
+
+```bash
+docker run -d --name rabbitmq \
+  -p 5672:5672 \
+  -p 15672:15672 \
+  rabbitmq:3-management
+```
+
+- **5672**：AMQP 协议端口
+- **15672**：管理控制台 `http://localhost:15672`（默认 `guest` / `guest`，**生产务必改密码**）
+
+### 2.2 创建 Spring Boot 3 项目
+
+依赖选择：`Spring AMQP`、`Spring Web`。
 
 ```xml
-
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-amqp</artifactId>
 </dependency>
 ```
 
-- **Gradle项目（`build.gradle`）**：
+---
 
-```groovy
-implementation 'org.springframework.boot:spring-boot-starter-amqp'
-```
-
-### 四、配置文件添加RabbitMQ配置
-
-- **`application.properties`配置示例**：
-
-```properties
-spring.rabbitmq.host=127.0.0.1  # RabbitMQ服务器的IP地址，如果是本地安装就是127.0.0.1，若是远程服务器则填写对应IP
-spring.rabbitmq.port=5672  # RabbitMQ服务监听的端口，默认5672
-spring.rabbitmq.username=guest  # 登录RabbitMQ的用户名，默认是guest（生产环境记得修改）
-spring.rabbitmq.password=guest  # 登录RabbitMQ的密码，默认是guest（生产环境记得修改）
-spring.rabbitmq.virtual-host=/  # RabbitMQ的虚拟主机，默认是/，可根据实际需求设置不同的虚拟主机来隔离资源
-```
-
-- **`application.yml`配置示例（格式更清晰，推荐使用）**：
+## 三、连接配置
 
 ```yaml
 spring:
@@ -63,145 +72,466 @@ spring:
     username: guest
     password: guest
     virtual-host: /
+    # 发布者确认（可选）
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    # 消费者配置
+    listener:
+      simple:
+        acknowledge-mode: manual    # 手动 ACK
+        prefetch: 10              # 每次预取条数
+        retry:
+          enabled: true
+          initial-interval: 1000ms
+          max-attempts: 3
+          multiplier: 2.0
 ```
 
-### 五、消息生产者示例
+---
 
-创建一个消息发送者类（例如`RabbitMQProducer.java`），用于向RabbitMQ发送消息，示例代码如下：
-
-```java
-import org.example.rabbitmq.config.RabbitMQConfig;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-
-// 消息生产者
-@Component
-public class RabbitMQProducer {
-
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
-
-    public void send(String message) {
-        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, message);
-    }
-}
-```
-
-在上述代码中：
-
-- 通过`@Autowired`注入`RabbitTemplate`，它是Spring AMQP提供的用于发送消息的核心类，封装了与RabbitMQ交互的底层操作。
-- `send方法接收交换机（exchange）名称、路由键（routingKey）和消息内容（message）作为参数，然后调用`convertAndSend`
-  方法将消息发送到指定的交换机，交换机再根据路由键将消息路由到对应的队列中。
-
-### 六、消息消费者示例
-
-创建一个消息消费者类（例如`RabbitMQConsumer.java`），用于从RabbitMQ接收并处理消息，示例代码如下：
+## 四、Exchange / Queue / Binding 配置
 
 ```java
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.stereotype.Component;
-
-@Component
-public class RabbitMQConsumer {
-
-    // 监听队列
-    @RabbitListener(queues = "myQueue")  // 监听名为myQueue的队列
-    public void receiveMessage(String message) {
-        System.out.println("Received message: " + message);
-        // 在这里可以添加具体的业务逻辑来处理接收到的消息，比如存入数据库、进行数据加工等操作
-    }
-}
-```
-
-在上述代码中：
-
-- 使用`@RabbitListener`注解来标记该方法为一个消息监听器，`queues`属性指定了要监听的队列名称（这里假设队列名为`myQueue`）。
-- 当有消息发送到`myQueue`队列时，该方法会被自动触发，接收到的消息作为参数传入，在这里只是简单地打印了消息内容，实际项目中可以添加具体的业务逻辑来处理消息。
-
-### 七、配置队列、交换机等（可选项，根据需求自定义配置）
-
-如果需要在Spring Boot项目中自定义配置队列、交换机以及它们之间的绑定关系等，可以创建一个配置类（例如`RabbitMQConfig.java`
-），示例代码如下：
-
-```java
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 @Configuration
 public class RabbitMQConfig {
 
-    public static final String QUEUE_NAME = "myQueue";    // 队列
-    public static final String EXCHANGE_NAME = "myExchange"; // 交换机
-    public static final String ROUTING_KEY = "myRoutingKey"; // 路由键
+    public static final String ORDER_EXCHANGE = "order.exchange";
+    public static final String ORDER_QUEUE = "order.queue";
+    public static final String ORDER_ROUTING_KEY = "order.created";
 
-    // 定义队列
+    // 死信相关
+    public static final String DLX_EXCHANGE = "order.dlx";
+    public static final String DLQ_QUEUE = "order.dlq";
+    public static final String DLQ_ROUTING_KEY = "order.dead";
+
     @Bean
-    public Queue queue() {
-        return new Queue(QUEUE_NAME);
+    public DirectExchange orderExchange() {
+        return new DirectExchange(ORDER_EXCHANGE, true, false);
+        // durable=true 持久化；autoDelete=false
     }
 
-    // 定义交换机，这里以DirectExchange为例（还有其他类型如FanoutExchange、TopicExchange等）
     @Bean
-    public DirectExchange exchange() {
-        return new DirectExchange(EXCHANGE_NAME);
+    public Queue orderQueue() {
+        return QueueBuilder.durable(ORDER_QUEUE)
+            .withArgument("x-dead-letter-exchange", DLX_EXCHANGE)
+            .withArgument("x-dead-letter-routing-key", DLQ_ROUTING_KEY)
+            .build();
     }
 
-    // 定义队列和交换机的绑定关系
     @Bean
-    public Binding binding(Queue queue, DirectExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
+    public Binding orderBinding(Queue orderQueue, DirectExchange orderExchange) {
+        return BindingBuilder.bind(orderQueue)
+            .to(orderExchange)
+            .with(ORDER_ROUTING_KEY);
+    }
+
+    // 死信交换机与队列
+    @Bean
+    public DirectExchange deadLetterExchange() {
+        return new DirectExchange(DLX_EXCHANGE, true, false);
+    }
+
+    @Bean
+    public Queue deadLetterQueue() {
+        return QueueBuilder.durable(DLQ_QUEUE).build();
+    }
+
+    @Bean
+    public Binding deadLetterBinding(Queue deadLetterQueue,
+                                     DirectExchange deadLetterExchange) {
+        return BindingBuilder.bind(deadLetterQueue)
+            .to(deadLetterExchange)
+            .with(DLQ_ROUTING_KEY);
     }
 }
 ```
 
-在上述配置类中：
+**参数说明：**
 
-- 首先定义了队列、交换机的名称以及路由键等常量，方便后续引用。
-- 通过`@Bean`注解定义了`Queue`对象，表示一个队列实体。
-- 定义了`DirectExchange`对象，代表一种直连型交换机（不同类型交换机有不同的路由规则，直连型是根据完全匹配的路由键来路由消息）。
-- 最后通过`BindingBuilder`构建了队列和交换机之间的绑定关系，指定了按照定义的路由键进行绑定，这样消息就能从交换机正确路由到队列了。
+- `durable`：队列/交换机是否持久化（重启不丢）
+- `x-dead-letter-exchange`：消息被拒绝或过期时转发的死信交换机
+- `x-message-ttl`：消息 TTL（毫秒），可设在队列或单条消息上
 
-### 八、测试
+### 4.1 Topic 交换机示例
 
 ```java
-import org.example.rabbitmq.Producer.RabbitMQProducer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-@SpringBootApplication
-public class RabbitMqApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(RabbitMqApplication.class, args);
-    }
-
-
-    @Autowired
-    private RabbitMQProducer RabbitMQProducer;
-
-    @GetMapping("/send")
-    public String sendMessage(@RequestParam String message) {
-        RabbitMQProducer.send(message);
-        return "Message sent: " + message;
-    }
-
+@Bean
+public TopicExchange logExchange() {
+    return new TopicExchange("log.exchange");
 }
 
+@Bean
+public Queue errorLogQueue() {
+    return new Queue("log.error");
+}
+
+@Bean
+public Binding errorBinding(Queue errorLogQueue, TopicExchange logExchange) {
+    return BindingBuilder.bind(errorLogQueue).to(logExchange).with("log.error.#");
+}
 ```
 
-启动Spring Boot项目后：
+发送 `log.error.payment` 会路由到 `log.error` 队列。
 
-- **生产者测试**：可以在项目的其他地方（比如某个控制器类中）注入`RabbitMQProducer`，然后调用`send`
-  方法，传入合适的交换机、路由键和消息内容来发送消息，观察RabbitMQ管理界面中相应队列的消息数量是否增加等情况来验证消息是否发送成功。
-- **消费者测试**：查看控制台输出或者在`receiveMessage`方法中添加断点等方式，验证当有消息发送到对应的队列时，消费者是否能正确接收到并执行相应的业务逻辑。
+---
+
+## 五、JSON 消息转换器
+
+默认使用 `SimpleMessageConverter`（Java 序列化），**生产推荐 JSON**。
+
+```java
+@Configuration
+public class RabbitMessageConverterConfig {
+
+    @Bean
+    public MessageConverter jsonMessageConverter() {
+        return new Jackson2JsonMessageConverter();
+    }
+
+    @Bean
+    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory,
+                                         MessageConverter jsonMessageConverter) {
+        RabbitTemplate template = new RabbitTemplate(connectionFactory);
+        template.setMessageConverter(jsonMessageConverter);
+        // 消息无法路由时回调
+        template.setMandatory(true);
+        template.setReturnsCallback(returned -> {
+            System.err.println("消息被退回: " + returned.getMessage());
+        });
+        return template;
+    }
+}
+```
+
+### 5.1 消息 DTO
+
+```java
+public record OrderMessage(
+    String orderId,
+    Long userId,
+    BigDecimal amount,
+    LocalDateTime createdAt
+) {}
+```
+
+---
+
+## 六、消息生产者
+
+```java
+@Component
+@RequiredArgsConstructor
+@Slf4j
+public class OrderProducer {
+
+    private final RabbitTemplate rabbitTemplate;
+
+    public void sendOrderCreated(OrderMessage message) {
+        rabbitTemplate.convertAndSend(
+            RabbitMQConfig.ORDER_EXCHANGE,
+            RabbitMQConfig.ORDER_ROUTING_KEY,
+            message,
+            msg -> {
+                // 单条消息持久化
+                msg.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+                return msg;
+            }
+        );
+        log.info("订单消息已发送: {}", message.orderId());
+    }
+
+    // 带 Confirm 回调（需 publisher-confirm-type: correlated）
+    public void sendWithConfirm(OrderMessage message) {
+        CorrelationData correlationData = new CorrelationData(message.orderId());
+        rabbitTemplate.convertAndSend(
+            RabbitMQConfig.ORDER_EXCHANGE,
+            RabbitMQConfig.ORDER_ROUTING_KEY,
+            message,
+            correlationData
+        );
+    }
+}
+```
+
+### 6.1 测试接口
+
+```java
+@RestController
+@RequiredArgsConstructor
+public class OrderController {
+
+    private final OrderProducer orderProducer;
+
+    @PostMapping("/orders/publish")
+    public String publish(@RequestBody OrderMessage message) {
+        orderProducer.sendOrderCreated(message);
+        return "sent";
+    }
+}
+```
+
+---
+
+## 七、消息消费者（@RabbitListener）
+
+```java
+@Component
+@Slf4j
+@RequiredArgsConstructor
+public class OrderConsumer {
+
+    private final OrderService orderService;
+
+    @RabbitListener(queues = RabbitMQConfig.ORDER_QUEUE)
+    public void onOrderCreated(OrderMessage message, Channel channel,
+                               @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag) {
+        try {
+            log.info("收到订单: {}", message);
+            orderService.processOrder(message);
+            // 手动 ACK：成功
+            channel.basicAck(deliveryTag, false);
+        } catch (BusinessException e) {
+            log.warn("业务异常，拒绝并不重新入队 → 进死信队列: {}", e.getMessage());
+            try {
+                // requeue=false：不重回队列，触发死信
+                channel.basicNack(deliveryTag, false, false);
+            } catch (IOException ex) {
+                log.error("NACK 失败", ex);
+            }
+        } catch (Exception e) {
+            log.error("未知异常，重新入队重试", e);
+            try {
+                // requeue=true：重回队列（注意避免无限循环）
+                channel.basicNack(deliveryTag, false, true);
+            } catch (IOException ex) {
+                log.error("NACK 失败", ex);
+            }
+        }
+    }
+}
+```
+
+---
+
+## 八、ACK / NACK 详解
+
+| 方法 | 含义 | 使用场景 |
+|------|------|---------|
+| `basicAck(tag, multiple)` | 确认消费成功 | 业务处理完成 |
+| `basicNack(tag, multiple, requeue)` | 拒绝消息 | `requeue=true` 重试；`false` 丢弃或进死信 |
+| `basicReject(tag, requeue)` | 拒绝单条 | 同 NACK（不支持批量） |
+
+**确认模式（`acknowledge-mode`）：**
+
+| 模式 | 说明 |
+|------|------|
+| `none` | 自动 ACK（消息一投递就确认，可能丢消息） |
+| `auto` | Spring 根据方法是否正常返回决定 ACK/NACK |
+| `manual` | 代码里手动 `channel.basicAck`（**生产推荐**） |
+
+---
+
+## 九、重试机制
+
+### 9.1 Spring 内置重试（listener.simple.retry）
+
+```yaml
+spring:
+  rabbitmq:
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 1000ms
+          max-attempts: 3
+          multiplier: 2.0
+          max-interval: 10000ms
+```
+
+配合 `acknowledge-mode: auto` 时，重试耗尽后默认拒绝消息。
+
+### 9.2 业务层重试（Spring Retry）
+
+```java
+@Retryable(
+    retryFor = TransientException.class,
+    maxAttempts = 3,
+    backoff = @Backoff(delay = 2000, multiplier = 2)
+)
+public void processWithRetry(OrderMessage msg) {
+    // 可能失败的远程调用
+}
+```
+
+### 9.3 重试 vs 死信
+
+- **短暂故障**：`requeue=true` 或 Spring Retry
+- **永久失败**（如数据格式错误）：`requeue=false` → 死信队列，人工介入
+
+---
+
+## 十、死信队列（DLQ）
+
+消息进入死信的常见原因：
+
+1. 消费者 `basicNack` / `basicReject` 且 `requeue=false`
+2. 消息 TTL 过期
+3. 队列达到最大长度（`x-max-length`）
+
+### 10.1 死信消费者
+
+```java
+@Component
+@Slf4j
+public class DeadLetterConsumer {
+
+    @RabbitListener(queues = RabbitMQConfig.DLQ_QUEUE)
+    public void handleDeadLetter(OrderMessage message) {
+        log.error("死信消息，需人工处理: {}", message);
+        // 落库、告警、钉钉通知等
+    }
+}
+```
+
+### 10.2 延迟队列（了解）
+
+RabbitMQ 延迟插件 `rabbitmq_delayed_message_exchange`，或 TTL + 死信实现延迟投递（如订单超时取消）。
+
+---
+
+## 十一、Fanout 广播示例
+
+```java
+@Configuration
+public class NotifyConfig {
+
+    public static final String NOTIFY_EXCHANGE = "notify.fanout";
+    public static final String SMS_QUEUE = "notify.sms";
+    public static final String EMAIL_QUEUE = "notify.email";
+
+    @Bean
+    public FanoutExchange notifyExchange() {
+        return new FanoutExchange(NOTIFY_EXCHANGE);
+    }
+
+    @Bean
+    public Queue smsQueue() { return new Queue(SMS_QUEUE); }
+
+    @Bean
+    public Queue emailQueue() { return new Queue(EMAIL_QUEUE); }
+
+    @Bean
+    public Binding smsBinding(Queue smsQueue, FanoutExchange notifyExchange) {
+        return BindingBuilder.bind(smsQueue).to(notifyExchange);
+    }
+
+    @Bean
+    public Binding emailBinding(Queue emailQueue, FanoutExchange notifyExchange) {
+        return BindingBuilder.bind(emailQueue).to(notifyExchange);
+    }
+}
+```
+
+一条消息发送到 Fanout Exchange，SMS 和 Email 队列各收到一份。
+
+---
+
+## 十二、幂等性
+
+消息可能重复投递，消费端需保证幂等：
+
+```java
+public void processOrder(OrderMessage msg) {
+    if (orderService.exists(msg.orderId())) {
+        log.info("订单已处理，跳过: {}", msg.orderId());
+        return;
+    }
+    orderService.createFromMessage(msg);
+}
+```
+
+常用手段：业务唯一键、Redis 去重、数据库唯一约束。
+
+---
+
+## 十三、常见坑
+
+### 13.1 队列未声明就监听
+
+启动报错 `NOT_FOUND`。确保 `@Bean` 声明队列，或管理台预先创建。
+
+### 13.2 消息丢失
+
+| 环节 | 防护 |
+|------|------|
+| 生产者 | `publisher-confirm`、持久化消息 |
+| Broker | 队列 durable、镜像队列（集群） |
+| 消费者 | 手动 ACK，处理完再确认 |
+
+### 13.3 无限重试
+
+`requeue=true` + 永久性错误 → 消息永远循环。应设重试上限后进 DLQ。
+
+### 13.4 大消息
+
+默认单条消息不宜过大（建议 < 1MB），大文件用对象存储 + 消息传 URL。
+
+### 13.5 反序列化失败
+
+DTO 字段变更导致 JSON 解析失败，应进死信并告警，不要无限重试。
+
+### 13.6 预取数 prefetch
+
+`prefetch=1` 公平分发但吞吐低；`prefetch=10~50` 提高吞吐，需平衡内存。
+
+---
+
+## 十四、完整测试流程
+
+```bash
+# 1. 启动 RabbitMQ
+docker start rabbitmq
+
+# 2. 启动 Spring Boot
+
+# 3. 发送 JSON 消息
+curl -X POST http://localhost:8080/orders/publish \
+  -H "Content-Type: application/json" \
+  -d '{
+    "orderId": "ORD-001",
+    "userId": 1001,
+    "amount": 99.90,
+    "createdAt": "2026-08-29T10:00:00"
+  }'
+
+# 4. 管理台查看
+# Queues → order.queue 应有 Ready=0（已消费）
+# 若模拟业务异常，检查 order.dlq
+```
+
+---
+
+## 十五、与 Redis Pub/Sub 对比
+
+| 特性 | RabbitMQ | Redis Pub/Sub |
+|------|----------|---------------|
+| 持久化 | 支持 | 不支持 |
+| ACK | 支持 | 无 |
+| 路由 | Exchange 多种类型 | 仅频道广播 |
+| 适用 | 可靠异步任务 | 轻量实时通知 |
+
+---
+
+## 十六、小结
+
+| 主题 | 要点 |
+|------|------|
+| 拓扑 | Exchange + Queue + Binding + Routing Key |
+| 发送 | `RabbitTemplate.convertAndSend` |
+| 接收 | `@RabbitListener` |
+| 序列化 | `Jackson2JsonMessageConverter` |
+| 可靠性 | 手动 ACK、持久化、Confirm |
+| 失败处理 | 重试 + 死信队列 |
+| 幂等 | 消费端去重 |
+
+掌握以上内容，即可在 Spring Boot 3 中搭建生产可用的 RabbitMQ 消息系统。
