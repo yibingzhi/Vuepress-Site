@@ -689,7 +689,12 @@ public class UserService {
 
 ### 八、链路追踪
 
-#### 1. Sleuth + Zipkin
+::: warning Boot 3 请改用 Micrometer Tracing
+`spring-cloud-starter-sleuth` **不支持 Spring Boot 3**。下方 Sleuth 配置仅适用于 Boot 2 遗留项目。  
+Boot 3：`micrometer-tracing-bridge-brave` + Zipkin/OTel reporter。详见 [Sleuth详解](./Sleuth详解.md) 文首说明。
+:::
+
+#### 1. Sleuth + Zipkin（历史 · Boot 2）
 
 **依赖配置：**
 

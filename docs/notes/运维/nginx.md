@@ -5,21 +5,25 @@ permalink: /article/rmsqpk0q/
 ---
 ## 1.安装nginx
 
-### 1. CentOS系Linux发⾏版可以使⽤yum来安装
+::: tip 保鲜说明
+CentOS Linux 已 EOL。RHEL 系请用 **Rocky Linux / AlmaLinux / CentOS Stream**，包管理优先 `dnf`。
+:::
 
-```yaml
-# 1. 安装EPEL仓库
-sudo yum install epel-release
+### 1. RHEL 系（Rocky / Alma / CentOS Stream）用 dnf 安装
 
-  # 2. 更新repo
-sudo yum update
+```bash
+# 1. 安装 EPEL（按发行版选用）
+sudo dnf install -y epel-release
 
-  # 3. 安装nginx
-sudo yum install nginx
+# 2. 安装 nginx
+sudo dnf install -y nginx
 
-  # 4. 验证安装
-sudo nginx -v
-```    
+# 3. 验证
+nginx -v
+
+# 4. 开机自启（可选）
+sudo systemctl enable --now nginx
+```
 
 ### 2.Debian、Ubuntu系列的Linux发⾏版可以使⽤apt来安装
 

@@ -9,6 +9,10 @@ createTime: 2024/11/19 11:15:30
 permalink: /article/vue3-detailed/
 ---
 
+::: tip 现行默认
+新项目用 `npm create vue@latest`（Vite）+ `<script setup>` + **Pinia**。Vue 2 写法见 [Vue 2 历史对照](./vue.md)。
+:::
+
 ### 一、Vue3 核心特性
 
 #### 1. Composition API

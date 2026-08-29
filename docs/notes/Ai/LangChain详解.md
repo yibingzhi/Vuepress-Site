@@ -11,6 +11,10 @@ createTime: 2025/01/27 10:00:00
 permalink: /article/langchain-java-guide/
 ---
 
+::: tip 保鲜说明（2026-08）
+已对齐 **LangChain4j 1.19.x**：主接口为 `ChatModel`，调用用 `chat()`（旧 `ChatLanguageModel.generate()` 已淘汰）。模块坐标以 [docs.langchain4j.dev](https://docs.langchain4j.dev/get-started/) 为准。
+:::
+
 #### 1. 框架简介
 
 LangChain4j 是 LangChain 的 Java 版本，专为 Java 开发者设计，提供了与 Python 版本相同的核心功能。它基于 Spring Boot 生态系统，帮助开发者快速构建 AI 应用，包括聊天机器人、智能代理、RAG 系统等。
@@ -39,60 +43,49 @@ LangChain4j 是 LangChain 的 Java 版本，专为 Java 开发者设计，提供
 在 `pom.xml` 中添加以下依赖：
 
 ```xml
+<properties>
+    <langchain4j.version>1.19.0</langchain4j.version>
+</properties>
+
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-bom</artifactId>
+            <version>${langchain4j.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+
 <dependencies>
-    <!-- Spring Boot Web Starter -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
-    
-    <!-- Spring Boot Validation -->
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-validation</artifactId>
-    </dependency>
-    
-    <!-- LangChain4j 核心依赖 -->
+
+    <!-- AI Services 等高阶 API -->
     <dependency>
         <groupId>dev.langchain4j</groupId>
         <artifactId>langchain4j</artifactId>
-        <version>0.27.1</version>
     </dependency>
-    
-    <!-- OpenAI 集成 -->
+
+    <!-- OpenAI -->
     <dependency>
         <groupId>dev.langchain4j</groupId>
         <artifactId>langchain4j-open-ai</artifactId>
-        <version>0.27.1</version>
     </dependency>
-    
-    <!-- Anthropic Claude 集成 -->
+
+    <!-- Anthropic（该模块可能仍是 *-beta 版本，跟 BOM） -->
     <dependency>
         <groupId>dev.langchain4j</groupId>
         <artifactId>langchain4j-anthropic</artifactId>
-        <version>0.27.1</version>
     </dependency>
-    
-    <!-- 向量数据库支持 -->
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j-embeddings-store-redis</artifactId>
-        <version>0.27.1</version>
-    </dependency>
-    
-    <!-- 文档处理 -->
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j-document-parser-apache-pdfbox</artifactId>
-        <version>0.27.1</version>
-    </dependency>
-    
-    <!-- 文本分割 -->
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j-text-splitter</artifactId>
-        <version>0.27.1</version>
-    </dependency>
+
+    <!-- 向量库 / 文档解析：按需选择真实存在的模块，例如 -->
+    <!-- langchain4j-embeddings、langchain4j-document-parser-apache-pdfbox -->
+    <!-- Redis 等 embedding store 请查官方 Integrations 列表，勿臆造 artifactId -->
 </dependencies>
 ```
 
@@ -108,14 +101,14 @@ spring:
 # OpenAI 配置
 openai:
   api-key: ${OPENAI_API_KEY:your-openai-api-key}
-  model: gpt-3.5-turbo
+  model: gpt-4o-mini
   temperature: 0.7
   timeout: 60s
 
 # Anthropic 配置
 anthropic:
   api-key: ${ANTHROPIC_API_KEY:your-anthropic-api-key}
-  model: claude-3-sonnet-20240229
+  model: claude-sonnet-4-20250514
   timeout: 60s
 
 # LangChain 配置
@@ -138,23 +131,23 @@ langchain:
 @Service
 public class ChatService {
     
-    private final ChatLanguageModel chatModel;
+    private final ChatModel chatModel;
     
     public ChatService(@Value("${openai.api-key}") String apiKey) {
         this.chatModel = OpenAiChatModel.builder()
                 .apiKey(apiKey)
-                .modelName("gpt-3.5-turbo")
+                .modelName("gpt-4o-mini")
                 .temperature(0.7)
                 .timeout(Duration.ofSeconds(60))
                 .build();
     }
     
     public String chat(String message) {
-        return chatModel.generate(message);
+        return chatModel.chat(message);
     }
     
-    public List<ChatMessage> chatWithHistory(List<ChatMessage> messages) {
-        return chatModel.generate(messages);
+    public String chatWithHistory(List<ChatMessage> messages) {
+        return chatModel.chat(messages).aiMessage().text();
     }
 }
 ```
@@ -180,12 +173,12 @@ public class ChatController {
     }
     
     @PostMapping("/conversation")
-    public ResponseEntity<List<ChatMessage>> conversationChat(@RequestBody @Valid ConversationRequest request) {
+    public ResponseEntity<String> conversationChat(@RequestBody @Valid ConversationRequest request) {
         List<ChatMessage> messages = request.getMessages().stream()
                 .map(msg -> new HumanMessage(msg.getContent()))
                 .collect(Collectors.toList());
         
-        List<ChatMessage> response = chatService.chatWithHistory(messages);
+        String response = chatService.chatWithHistory(messages);
         return ResponseEntity.ok(response);
     }
 }
@@ -227,12 +220,12 @@ public class MessageDto {
 @Service
 public class PromptTemplateService {
     
-    private final ChatLanguageModel chatModel;
+    private final ChatModel chatModel;
     
     public PromptTemplateService(@Value("${openai.api-key}") String apiKey) {
         this.chatModel = OpenAiChatModel.builder()
                 .apiKey(apiKey)
-                .modelName("gpt-3.5-turbo")
+                .modelName("gpt-4o-mini")
                 .build();
     }
     
@@ -246,7 +239,7 @@ public class PromptTemplateService {
                 "requirements", requirements
         ));
         
-        return chatModel.generate(prompt.text());
+        return chatModel.chat(prompt.text());
     }
     
     public String translateText(String text, String targetLanguage) {
@@ -259,7 +252,7 @@ public class PromptTemplateService {
                 "text", text
         ));
         
-        return chatModel.generate(prompt.text());
+        return chatModel.chat(prompt.text());
     }
 }
 ```
@@ -311,13 +304,13 @@ public interface CalculatorTool extends Tool {
 @Service
 public class AgentService {
     
-    private final ChatLanguageModel chatModel;
+    private final ChatModel chatModel;
     private final List<Tool> tools;
     
     public AgentService(@Value("${openai.api-key}") String apiKey) {
         this.chatModel = OpenAiChatModel.builder()
                 .apiKey(apiKey)
-                .modelName("gpt-3.5-turbo")
+                .modelName("gpt-4o-mini")
                 .build();
         
         this.tools = Arrays.asList(new CalculatorTool());
@@ -378,9 +371,9 @@ public class DocumentService {
                 .collect(Collectors.joining("\n\n"));
         
         // 使用 LLM 生成答案
-        ChatLanguageModel chatModel = OpenAiChatModel.builder()
+        ChatModel chatModel = OpenAiChatModel.builder()
                 .apiKey("your-api-key")
-                .modelName("gpt-3.5-turbo")
+                .modelName("gpt-4o-mini")
                 .build();
         
         String prompt = String.format(
@@ -388,7 +381,7 @@ public class DocumentService {
                 context, question
         );
         
-        return chatModel.generate(prompt);
+        return chatModel.chat(prompt);
     }
 }
 ```
@@ -417,19 +410,20 @@ public class ConversationMemoryService {
     }
     
     public String generateResponseWithMemory(String sessionId, String userMessage, 
-                                          ChatLanguageModel chatModel) {
+                                          ChatModel chatModel) {
         List<ChatMessage> history = getConversationHistory(sessionId);
         
         // 添加用户新消息
         history.add(new HumanMessage(userMessage));
         
-        // 生成回复
-        List<ChatMessage> response = chatModel.generate(history);
+        // 生成回复（1.x 返回 ChatResponse）
+        var response = chatModel.chat(history);
+        var aiMessage = response.aiMessage();
         
         // 保存对话历史
-        addMessage(sessionId, response.get(response.size() - 1));
+        addMessage(sessionId, aiMessage);
         
-        return response.get(response.size() - 1).text();
+        return aiMessage.text();
     }
 }
 ```
@@ -446,14 +440,14 @@ public class ConversationMemoryService {
 @Service
 public class CustomerServiceBot {
     
-    private final ChatLanguageModel chatModel;
+    private final ChatModel chatModel;
     private final ConversationMemoryService memoryService;
     
     public CustomerServiceBot(@Value("${openai.api-key}") String apiKey,
                             ConversationMemoryService memoryService) {
         this.chatModel = OpenAiChatModel.builder()
                 .apiKey(apiKey)
-                .modelName("gpt-3.5-turbo")
+                .modelName("gpt-4o-mini")
                 .build();
         
         this.memoryService = memoryService;
@@ -474,8 +468,8 @@ public class CustomerServiceBot {
         fullConversation.add(new HumanMessage(inquiry));
         
         // 生成回复
-        List<ChatMessage> response = chatModel.generate(fullConversation);
-        ChatMessage botResponse = response.get(response.size() - 1);
+        var response = chatModel.chat(fullConversation);
+        var botResponse = response.aiMessage();
         
         // 保存对话
         memoryService.addMessage(sessionId, new HumanMessage(inquiry));
@@ -495,14 +489,14 @@ public class CustomerServiceBot {
 public class DocumentQAService {
     
     private final DocumentService documentService;
-    private final ChatLanguageModel chatModel;
+    private final ChatModel chatModel;
     
     public DocumentQAService(DocumentService documentService,
                            @Value("${openai.api-key}") String apiKey) {
         this.documentService = documentService;
         this.chatModel = OpenAiChatModel.builder()
                 .apiKey(apiKey)
-                .modelName("gpt-3.5-turbo")
+                .modelName("gpt-4o-mini")
                 .build();
     }
     
@@ -534,10 +528,10 @@ public class LangChainConfig {
     
     @Bean
     @Primary
-    public ChatLanguageModel chatLanguageModel(@Value("${openai.api-key}") String apiKey) {
+    public ChatModel chatLanguageModel(@Value("${openai.api-key}") String apiKey) {
         return OpenAiChatModel.builder()
                 .apiKey(apiKey)
-                .modelName("gpt-3.5-turbo")
+                .modelName("gpt-4o-mini")
                 .temperature(0.7)
                 .timeout(Duration.ofSeconds(60))
                 .maxTokens(2000)

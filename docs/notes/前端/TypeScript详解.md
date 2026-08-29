@@ -9,6 +9,10 @@ createTime: 2025/08/16 14:42:53
 permalink: /article/uttnaydi/
 ---
 
+::: tip 工程化提示（2026-08）
+新项目脚手架优先 **Vite + `vue-tsc` / `tsc`**。文中若仍出现 `webpack.config.js`，仅作旧工程对照。
+:::
+
 ## 什么是TypeScript
 
 TypeScript是JavaScript的超集，由微软开发。它在JavaScript的基础上添加了静态类型检查、面向对象编程、接口、泛型等特性，使JavaScript更适合大型项目的开发。

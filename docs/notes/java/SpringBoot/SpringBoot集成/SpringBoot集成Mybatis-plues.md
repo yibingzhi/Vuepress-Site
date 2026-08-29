@@ -41,8 +41,8 @@ permalink: /SpringBoot/SpringBoot集成/6bqdp9w3/
 
         <!-- 添加对应数据库驱动依赖，以下以 MySQL 为例 -->
 <dependency>
-<groupId>mysql</groupId>
-<artifactId>mysql-connector-java</artifactId>
+<groupId>com.mysql</groupId>
+<artifactId>mysql-connector-j</artifactId>
 <version>8.0.34</version>
 </dependency>
 ```
@@ -52,7 +52,7 @@ permalink: /SpringBoot/SpringBoot集成/6bqdp9w3/
 
 ```groovy
 implementation 'com.baomidou:mybatis-plus-boot-starter:3.5.3'
-implementation 'mysql:mysql-connector-java:8.0.34'
+implementation 'com.mysql:mysql-connector-j:8.0.34'
 ```
 
 #### 3. 配置数据库连接信息
