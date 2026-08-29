@@ -1,158 +1,721 @@
 ---
 title: Linux
+tags:
+  - Linux
+  - 运维
+  - Shell
+  - 服务器
 createTime: 2024/11/19 10:54:14
 permalink: /article/905y42ne/
 ---
-### 一、文件和目录操作命令
 
-1. **ls（list）命令**：用于查看目录内容。
-    - **基本格式**：`ls [选项] [目录或文件]`
-    - **常用选项及示例**：
-        - `-l`：以长格式显示文件和目录详细信息，包含权限、所有者、大小、修改时间等。例如：`ls -l` 可显示当前目录下所有文件和目录的详细情况。
-        - `-a`：显示所有文件和目录，包括隐藏文件（文件名以“.”开头的文件）。比如：`ls -a` 会列出当前目录里的所有文件，包含隐藏的配置文件等。
-        - `-h`：与 `-l` 一起使用时，以人类可读的方式显示文件大小，如 `ls -lh`，文件大小会显示为如“1.2K”“23M”这样直观的格式，便于查看。
-        - `-R`：递归显示目录及其子目录中的内容，像 `ls -R /home` 会把 `/home` 目录及其所有子目录下的文件和目录都罗列出来。
-2. **cd（change directory）命令**：用于切换目录。
-    - **示例**：
-        - `cd /home/user1`：切换到用户 `user1` 的家目录。
-        - `cd..`：返回上一级目录，方便在目录层级中向上导航。
-        - `cd /`：切换到根目录（“/”），是整个文件系统的最顶层目录。
-3. **mkdir（make directory）命令**：用于创建目录。
-    - **基本格式**：`mkdir [选项] 目录名`
-    - **常用选项及示例**：
-        - `mkdir mydir`：在当前目录下创建名为 `mydir` 的新目录。
-        - `mkdir -p dir1/dir2`：递归创建多层目录，即若 `dir1` 不存在，会先创建 `dir1`，然后在其下创建 `dir2`。例如创建
-          `/test1/test2` 这样的嵌套目录结构时就可以使用此命令。
-4. **rmdir（remove directory）命令**：用于删除空目录。
-    - **示例**：`rmdir mydir` 可以删除名为 `mydir` 的当前为空的目录。若目录非空，则无法直接用此命令删除，需要使用 `rm -r`
-      命令（后文会介绍）。
-5. **cp（copy）命令**：用于复制文件和目录。
-    - **基本格式**：`cp [选项] 源文件或目录 目标文件或目录`
-    - **常用选项及示例**：
-        - `cp file1.txt /home/user1/`：将当前目录下的 `file1.txt` 文件复制到 `/home/user1` 目录下。
-        - `cp -r dir1 dir2`：递归复制目录 `dir1` 的所有内容到 `dir2`（若 `dir2` 不存在会创建），常用于复制整个目录树结构，比如备份某个项目目录等情况。
-6. **mv（move）命令**：用于移动文件和目录（也可用于重命名）。
-    - **示例**：
-        - `mv file1.txt file2.txt`：将 `file1.txt` 重命名为 `file2.txt`，相当于在同一目录下移动并更改文件名。
-        - `mv dir1 /home/user2/`：把 `dir1` 目录移动到 `/home/user2` 目录下，实现目录位置的转移。
-7. **rm（remove）命令**：用于删除文件和目录。
-    - **基本格式**：`rm [选项] 文件或目录`
-    - **常用选项及示例**：
-        - `rm -f file.txt`：强制删除 `file.txt` 文件，不会提示确认信息，常用于批量删除文件或者确定要删除且无需确认的情况，但使用要谨慎以防误删重要文件。
-        - `rm -r dirname`：递归删除 `dirname` 目录及其内部所有文件和子目录，比如删除一个包含多个子文件和子目录的项目目录时使用；
-          `rm -rf dirname` 则是强制递归删除，更加“果断”，同样需谨慎操作。
+::: tip 保鲜说明（2026-08）
+本文以 **Ubuntu 22.04/24.04 LTS** 与 **RHEL 9 / Rocky 9** 为参考，命令在多数发行版通用。部分网络工具在最小化镜像中需额外安装（如 `net-tools`、`bind-utils`）。生产环境操作前务必确认权限与备份策略。
+:::
 
-### 二、用户和用户组管理命令
+## 1. 学习路径与心智模型
 
-1. **useradd 命令**：用于添加新用户。
-    - **基本格式**：`useradd [选项] 用户名`
-    - **常用选项及示例**：
-        - `useradd user2`：添加名为 `user2` 的新用户，同时会在 `/home` 目录下创建对应的家目录，并且分配默认的用户
-          ID（UID）等基础配置。
-        - `useradd -u 1002 -g group1 user3`：指定用户 `user3` 的 UID 为 1002，并加入到 `group1` 用户组，方便按照特定需求来创建用户并关联用户组。
-2. **passwd 命令**：用于设置用户密码。
-    - **示例**：`passwd user2` 可以为用户 `user2` 设置密码，输入命令后按系统提示输入新密码并再次确认新密码即可。普通用户只能修改自己的密码，而
-      root 用户可以修改任何用户的密码。
-3. **userdel 命令**：用于删除用户。
-    - **示例**：`userdel user2` 删除用户 `user2`，不过默认情况下不会删除其家目录；若要同时删除其家目录，可以使用
-      `userdel -r user2`，这样能彻底清除与该用户相关的所有文件痕迹，但也要谨慎操作以防误删有用数据。
-4. **usermod 命令**：用于修改用户信息。
-    - **常用示例**：
-        - `usermod -g new_group user1`：将用户 `user1` 从原来所在的用户组变更到 `new_group`
-          用户组，实现用户组归属的调整，以便改变用户对资源访问的权限范围等。
-        - `usermod -l new_name user1`：把用户 `user1` 的用户名更改为 `new_name`，比如用户需要更换更合适的登录名称时可使用此操作。
-5. **groupadd 命令**：用于添加用户组。
-    - **示例**：`groupadd group2` 可以添加名为 `group2` 的新用户组，创建后可用于对多个用户进行归类管理，便于统一设置权限等操作。
-6. **groupdel 命令**：用于删除用户组。
-    - **示例**：`groupdel group2` 删除名为 `group2` 的用户组，不过前提是该组没有用户关联，若有用户关联需要先将用户从该组移除，才能成功删除用户组。
-7. **gpasswd 命令**：用于管理用户组中的成员。
-    - **常用示例**：
-        - `gpasswd -a user1 group1`：把用户 `user1` 添加到 `group1` 用户组中，使 `user1` 具备该组相应的权限等。
-        - `gpasswd -d user1 group1`：将用户 `user1` 从 `group1` 用户组中移除，改变用户所属的分组关系，进而影响其权限范围。
+Linux 运维日常围绕五类资源：
 
-### 三、权限管理命令
+| 资源 | 典型命令 | 出问题时的症状 |
+|------|----------|----------------|
+| 文件系统 | `ls` `find` `df` `du` | 磁盘满、权限拒绝 |
+| 进程 | `ps` `top` `kill` | CPU/内存飙高、僵尸进程 |
+| 网络 | `ss` `curl` `ping` | 连不上、超时、端口未监听 |
+| 服务 | `systemctl` `journalctl` | 服务起不来、反复重启 |
+| 用户与权限 | `chmod` `chown` `sudo` | Permission denied |
 
-1. **chmod（change mode）命令**：用于修改文件和目录的权限。
-    - **符号模式示例**：
-        - `chmod u+x file.txt`：给文件 `file.txt` 的所有者（user）添加执行权限，其中“u”代表所有者，“+”表示添加权限，“x”代表执行权限。同理，
-          `g-w` 表示去除所属用户组（group）的写权限，`o-r` 表示去除其他用户（others）的读权限，如 `chmod g-w,o-r file.txt`。
-    - **数字模式示例**：将 `rwx`（读、写、执行权限）分别用数字表示（`r = 4`，`w = 2`，`x = 1`），然后通过三组权限对应的数字相加来设置权限。例如
-      `chmod 754 file.txt`，意味着给所有者设置 `rwx`（`4 + 2 + 1 = 7`）权限，给所属用户组设置 `r - x`（`4 + 1 = 5`）权限，给其他用户设置
-      `r--`（`4`）权限。
-2. **chown（change owner）命令**：用于修改文件和目录的所有者及所属用户组。
-    - **示例**：
-        - `chown user1:group1 file.txt`：将文件 `file.txt` 的所有者改为 `user1`，所属用户组改为 `group1`
-          ，明确文件归属关系，便于后续权限管理等操作。
-        - `chown -R user1:group1 dir1`：递归地将目录 `dir1` 及其内部所有文件和子目录的所有者和所属用户组都变更为 `user1`
-          和 `group1`（`-R` 表示递归操作），常用于整个目录树的归属权变更场景，比如项目交接后更改目录所有者情况等。
+建议把本文当作**现场排障手册**：先定位资源类型，再查对应章节。
 
-### 四、文本处理命令
+---
 
-1. **cat（concatenate）命令**：用于查看文本文件内容，简单地将文件全部内容输出显示。
-    - **示例**：`cat file.txt` 可直接显示 `file.txt` 文件内容，比较适合文件内容较少的情况，若文件内容很长则会快速滚动显示完，不利于查看细节。
-2. **more 命令**：用于分页查看文件内容，便于查看较长的文本文件。
-    - **操作方式及示例**：输入 `more file.txt` 后，按回车键逐行查看内容，按空格键可以翻页查看后续内容，按 `q`
-      键可退出查看模式。例如查看系统日志文件（通常内容较长）时，可使用 `more` 命令方便地逐页浏览。
-3. **less 命令**：功能类似 `more`，但功能更强大，支持向前、向后翻页等操作。
-    - **操作方式及示例**：使用 `less file.txt` 打开文件后，可通过 `Page Up` 和 `Page Down` 键向前、向后翻页，还能通过 `/`
-      输入关键字进行搜索，找到文件中包含指定关键字的位置，查看完按 `q` 键退出。常用于需要灵活浏览和查找内容的长文本文件查看场景。
-4. **nano 命令**：一个简单易用的文本编辑器，适合初学者快速编辑简单的文本文件。
-    - **操作示例**：`nano file.txt` 打开 `file.txt` 文件进行编辑，在编辑区域可直接输入、修改文字内容，编辑完成后按
-      `Ctrl + X` 组合键，然后按提示保存（输入 `Y` 确认保存，按回车键）或不保存（输入 `N`）并退出。
-5. **vim 命令**：功能强大但相对复杂的文本编辑器，有命令模式、插入模式、末行模式等多种工作模式。
-    - **基本操作示例**：
-        - 打开文件：`vim file.txt`，刚打开时处于命令模式，在此模式下可以进行一些诸如复制、粘贴、删除行等操作（有对应的快捷键）。
-        - 进入插入模式：按 `i` 键进入插入模式，此时可以进行文本输入操作，就像在普通文本编辑器里一样输入文字内容。
-        - 保存并退出：编辑完后按 `Esc` 键回到命令模式，然后输入 `:wq`（保存并退出）；若不想保存修改直接退出可输入 `:q!`
-          （强制不保存退出）。
+## 2. 文件与目录基础
 
-6. **grep（global search regular expression and print）命令**：用于在文本文件中搜索指定的字符串。
-    - **基本格式**：`grep [选项] "关键字" 文件`
-    - **常用选项及示例**：
-        - `grep "hello" file.txt`：在 `file.txt` 文件中搜索包含 `hello` 的行，并将这些行显示出来。
-        - `-i` 选项可忽略大小写进行搜索，如 `grep -i "hello" file.txt`，即使文件里是“Hello”“HELLO”等形式也能被搜索到；`-r`
-          选项用于递归搜索目录及其子目录下的文件，例如 `grep -r "error" /var/log` 可以在 `/var/log`
-          目录及其所有子目录下的文件中搜索包含“error”的行，常用于查找系统日志中的错误信息等情况。
-7. **sed（stream editor）命令**：用于对文本文件进行行编辑、替换等操作。
-    - **基本格式及示例**：`sed 's/old_word/new_word/g' file.txt` 会将 `file.txt` 文件中所有的 `old_word` 替换为
-      `new_word`（`s` 表示替换操作，`g` 表示全局替换，如果不加 `g` 则只替换每行第一次出现的地方）。例如将一个配置文件里的旧域名替换为新域名时就可以使用此命令进行批量替换操作。
+### 2.1 路径与特殊目录
 
-### 五、网络管理命令
+```bash
+pwd                    # 当前目录
+cd /var/log            # 绝对路径
+cd ~/projects          # ~ 表示当前用户家目录
+cd -                   # 回到上一次目录
+```
 
-1. **ifconfig 命令（部分发行版使用 `ip` 命令替代部分功能）**：用于查看网络接口信息以及进行临时网络配置。
-    - **查看信息示例**：
-        - `ifconfig`：可以查看当前系统的网络接口（如以太网接口 `eth0`、无线接口 `wlan0` 等）的 IP 地址、MAC
-          地址、网络状态等信息，快速了解网络连接基本情况。
-        - `ifconfig eth0`：查看指定接口 `eth0` 的详细信息，方便排查特定网络接口的问题。
-    - **临时配置示例（重启后失效）**：`ifconfig eth0 192.168.1.100 netmask 255.255.255.0` 可以给以太网接口 `eth0` 临时配置
-      IP 地址为 `192.168.1.100`，子网掩码为 `255.255.255.0`，常用于临时改变网络地址等简单场景，不过重启系统后配置就会丢失。
-2. **ip 命令**：功能更强大的网络管理命令，涵盖了更多网络相关操作，逐步替代部分 `ifconfig` 的功能。
-    - **查看信息示例**：
-        - `ip addr show`：可以查看网络接口的 IP 地址等相关信息，类似 `ifconfig` 的功能，能清晰展示各接口的网络配置情况。
-        - `ip link show`：查看网络接口的链路层信息，如接口状态（是开启还是关闭等），有助于深入排查网络硬件层面的连接问题。
-    - **临时配置示例（重启后失效）**：`ip addr add 192.168.1.100/24 dev eth0` 同样可以给 `eth0` 接口添加指定 IP 地址（`/24`
-      表示子网掩码的一种简略表示，对应 `255.255.255.0`），用于临时调整网络接口的地址配置。
+| 路径 | 含义 |
+|------|------|
+| `/` | 根目录 |
+| `/home/<user>` | 用户家目录 |
+| `/etc` | 配置文件 |
+| `/var/log` | 日志 |
+| `/tmp` | 临时文件（重启可能清空） |
+| `/usr/bin` | 用户命令 |
+| `/opt` | 第三方软件 |
 
-### 六、进程管理命令
+### 2.2 ls：列出目录
 
-1. **ps（process status）命令**：用于查看当前系统中的进程状态信息。
-    - **基本格式及常用示例**：
-        - `ps aux`：显示所有用户（a）的所有进程（u）的详细信息（x，包括没有控制终端的进程），会列出进程的 PID（进程
-          ID）、TTY（终端设备）、STAT（进程状态）、TIME（累计运行时间）、COMMAND（执行的命令）等关键信息，方便全面了解系统中正在运行的进程情况，常用于排查系统性能问题或者查看某个程序是否在运行等场景。
-        - `ps -ef`：以全格式显示所有进程信息，和 `ps aux` 类似但格式稍有不同，同样可以看到各进程的详细情况，对于分析进程之间的关系等有帮助。
-2. **kill 命令**：用于终止（杀死）进程。
-    - **基本格式及示例**：`kill PID`（PID 为进程 ID），例如 `kill 1234` 可以终止进程 ID 为 1234
-      的进程，常用于强制关闭某个出现故障或者不再需要运行的程序。不过有些进程可能无法直接用普通 `kill` 命令关闭，这时可以使用
-      `kill -9 PID`（`-9` 表示强制终止进程，发送 `SIGKILL` 信号），但这种强制终止可能导致进程未保存的数据丢失等问题，需谨慎使用。
-3. **top 命令**：实时动态地查看系统中各个进程的资源占用情况，类似 Windows 系统中的任务管理器。
-    - **操作及示例**：输入 `top` 命令后，会实时显示系统中 CPU 使用率最高的进程、内存占用最多的进程等信息，并且每隔一定时间（默认
-      3 秒左右）更新一次数据。通过按 `q` 键可退出 `top` 查看模式。常用于实时监控系统性能，查看哪些进程消耗资源过多，以便进行相应的优化或故障排查操作。
+```bash
+ls -lah                # 人类可读大小、包含隐藏文件、长格式
+ls -lt                 # 按修改时间排序
+ls -R /etc/nginx       # 递归
+```
 
-### 七、系统管理命令
+长格式权限解读：
 
-1. **uname（Unix name）命令**：用于获取系统相关信息。
-    - **常用选项及示例**：
-        - `uname -a`：显示系统的所有信息，包括内核名称、内核版本、主机名、硬件平台、操作系统等，例如
-          `Linux server1 5.4.0-125-generic #141-Ubuntu SMP Fri Jun 18 11:18:15 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux`
-          ，有助于快速了解当前 Linux 系统的基础配置情况，在进行系统维护、软件安装兼容性判断等场景时可能会用到。
-        - `uname -r`：只显示
+```
+-rwxr-xr-- 1 deploy deploy 4096 Aug 29 10:00 app.sh
+│├─┤├─┤├─┤
+│ u  g  o   (user / group / others)
+│ rwx = 读(4)写(2)执行(1)
+```
+
+### 2.3 创建、复制、移动、删除
+
+```bash
+mkdir -p /data/app/logs
+cp -a src/ dest/       # 归档复制，保留权限与时间戳
+mv old.conf new.conf   # 重命名或移动
+rm -f /tmp/cache/*     # 删文件
+rm -rf build/          # 递归删目录 —— 极度谨慎
+```
+
+::: danger
+`rm -rf /` 或 `rm -rf /*` 会摧毁系统。脚本里对变量做路径校验，必要时用 `rm -i` 或先 `echo` 预览。
+:::
+
+### 2.4 查看文件
+
+```bash
+cat /etc/os-release
+less /var/log/syslog   # 可搜索：/pattern，退出 q
+head -n 20 access.log
+tail -f app.log        # 实时跟踪（排障常用）
+tail -n 100 -f app.log # 先显示最后 100 行再跟踪
+```
+
+---
+
+## 3. 权限管理（chmod / chown）
+
+### 3.1 权限位
+
+- **r (4)**：读；目录表示可 `ls`
+- **w (2)**：写；目录表示可创建/删除文件
+- **x (1)**：执行；目录表示可 `cd` 进入
+
+```bash
+chmod u+x deploy.sh           # 所有者加执行
+chmod g-w secret.conf         # 组去掉写
+chmod o-r private.key         # 其他人去掉读
+chmod 755 app.sh              # rwxr-xr-x
+chmod 640 config.env          # rw-r-----
+```
+
+常用权限：
+
+| 模式 | 八进制 | 场景 |
+|------|--------|------|
+| 目录 | 755 | 公共可读、仅所有者可写 |
+| 脚本 | 755 | 可执行 |
+| 配置含密钥 | 600 | 仅所有者可读写 |
+| 协作目录 | 775 + 组 | 同组可写 |
+
+### 3.2 chown 与 chgrp
+
+```bash
+sudo chown deploy:deploy /opt/app -R
+sudo chown root:root /etc/ssl/private.key
+sudo chmod 600 /etc/ssl/private.key
+```
+
+### 3.3 特殊权限（了解）
+
+- **setuid**：执行时以文件所有者身份运行（如 `passwd`）
+- **setgid**：目录下新文件继承组
+- **sticky**：如 `/tmp`，仅所有者可删自己的文件
+
+```bash
+ls -ld /tmp    # drwxrwxrwt 末尾 t 为 sticky
+```
+
+### 3.4 sudo 与 sudoers
+
+```bash
+sudo systemctl restart nginx
+sudo -u postgres psql
+visudo   # 编辑 /etc/sudoers，勿直接 vim 该文件
+```
+
+---
+
+## 4. 进程管理（ps / top / kill）
+
+### 4.1 ps：快照
+
+```bash
+ps aux | head
+ps aux | grep java
+ps -ef --forest          # 树形显示父子进程
+ps -p 1234 -o pid,ppid,cmd,%cpu,%mem,etime
+```
+
+字段速记：`STAT` 中 `Z` 为僵尸进程，`D` 为不可中断睡眠（常等 IO）。
+
+### 4.2 top / htop
+
+```bash
+top
+# 交互：P 按 CPU，M 按内存，1 显示每核，k 杀进程，q 退出
+```
+
+```bash
+htop    # 更友好，需安装
+```
+
+### 4.3 找占用端口的进程
+
+```bash
+sudo ss -ltnp | grep ':8080'
+sudo lsof -i :8080
+```
+
+### 4.4 kill 信号
+
+| 信号 | 数字 | 含义 |
+|------|------|------|
+| SIGTERM | 15 | 礼貌终止（默认） |
+| SIGKILL | 9 | 强制杀死，不可捕获 |
+| SIGHUP | 1 | 重载配置（部分守护进程） |
+
+```bash
+kill 1234
+kill -15 1234
+kill -9 1234           # 最后手段
+killall -9 java        # 按名称 —— 慎用
+pkill -f 'spring-boot' # 按命令行匹配
+```
+
+**排障顺序**：先 `SIGTERM` 等待优雅退出，无效再用 `-9`。
+
+### 4.5 后台与 nohup
+
+```bash
+./long-task.sh &
+jobs
+fg %1
+nohup ./app.sh > app.log 2>&1 &
+disown
+```
+
+生产环境优先用 **systemd** 管理进程，而非裸 `nohup`。
+
+---
+
+## 5. 网络（ss / curl / ping）
+
+### 5.1 ip 与 ss（替代 netstat）
+
+```bash
+ip addr show
+ip route show
+ss -tuln               # 监听中的 TCP/UDP
+ss -tan state established
+ss -ltnp | grep 443
+```
+
+### 5.2 curl 排障
+
+```bash
+curl -I https://example.com          # 只看响应头
+curl -v http://127.0.0.1:8080/health # 详细握手
+curl -X POST http://api.local/login \
+  -H 'Content-Type: application/json' \
+  -d '{"user":"admin","pass":"***"}' \
+  --connect-timeout 5 --max-time 30
+curl -o /dev/null -s -w '%{http_code} %{time_total}s\n' https://api.example.com
+```
+
+### 5.3 DNS 与连通性
+
+```bash
+ping -c 4 8.8.8.8
+dig api.example.com +short
+nslookup api.example.com
+traceroute api.example.com    # 或 mtr
+nc -zv db.internal 5432       # 端口探测
+```
+
+### 5.4 防火墙（概览）
+
+```bash
+# Ubuntu (ufw)
+sudo ufw status
+sudo ufw allow 22/tcp
+
+# RHEL (firewalld)
+sudo firewall-cmd --list-all
+sudo firewall-cmd --add-port=8080/tcp --permanent
+sudo firewall-cmd --reload
+```
+
+---
+
+## 6. systemd 与 journalctl
+
+### 6.1 systemctl 常用
+
+```bash
+sudo systemctl status nginx
+sudo systemctl start nginx
+sudo systemctl stop nginx
+sudo systemctl restart nginx
+sudo systemctl reload nginx
+sudo systemctl enable nginx      # 开机自启
+sudo systemctl disable nginx
+sudo systemctl is-active nginx
+sudo systemctl list-units --type=service --state=failed
+```
+
+### 6.2 单元文件位置
+
+- `/usr/lib/systemd/system/`：包安装
+- `/etc/systemd/system/`：管理员覆盖
+
+修改后：
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart myapp
+```
+
+### 6.3 journalctl 日志
+
+```bash
+journalctl -u nginx -n 100 --no-pager
+journalctl -u myapp.service -f          # 实时
+journalctl -u myapp --since "1 hour ago"
+journalctl -u myapp --since "2026-08-29 09:00" --until "10:00"
+journalctl -p err -b                    # 本次启动以来的错误
+journalctl -k                           # 内核日志
+```
+
+持久化日志需配置 `/etc/systemd/journald.conf` 中 `Storage=persistent`。
+
+### 6.4 简易 service 示例
+
+```ini
+# /etc/systemd/system/myapp.service
+[Unit]
+Description=My Spring Boot App
+After=network.target
+
+[Service]
+User=deploy
+WorkingDirectory=/opt/myapp
+ExecStart=/usr/bin/java -jar /opt/myapp/app.jar
+Restart=on-failure
+RestartSec=5
+Environment=JAVA_OPTS=-Xms512m -Xmx512m
+
+[Install]
+WantedBy=multi-user.target
+```
+
+---
+
+## 7. 磁盘（df / du）
+
+### 7.1 df：文件系统使用率
+
+```bash
+df -h
+df -ih                  # inode 使用率（小文件过多时满）
+df -h /var
+```
+
+### 7.2 du：目录占用
+
+```bash
+du -sh /var/log/*
+du -h --max-depth=1 /opt
+du -sh /var/lib/docker  # 容器镜像常占满
+```
+
+### 7.3 找大文件
+
+```bash
+sudo find /var -type f -size +100M -exec ls -lh {} \; 2>/dev/null
+sudo find / -xdev -type f -size +1G 2>/dev/null | head
+```
+
+### 7.4 清理思路
+
+1. 日志：`journalctl --vacuum-size=500M`、应用 logrotate
+2. 包缓存：`sudo apt clean` / `sudo yum clean all`
+3. Docker：`docker system df` / `docker system prune`
+
+---
+
+## 8. find：查找文件
+
+```bash
+find /var/log -name "*.log"
+find /opt/app -type f -mtime -7          # 7 天内修改
+find /tmp -type f -atime +30 -delete     # 删除 30 天未访问 —— 先不加 -delete 预览
+find . -type f -perm 0777                # 危险权限
+find /etc -name "nginx.conf" 2>/dev/null
+```
+
+按大小：
+
+```bash
+find /data -type f -size +500M
+```
+
+执行命令：
+
+```bash
+find . -name "*.tmp" -print -delete
+find . -name "*.sh" -exec chmod +x {} \;
+```
+
+---
+
+## 9. grep：文本搜索
+
+```bash
+grep "ERROR" app.log
+grep -i error app.log              # 忽略大小写
+grep -n "Exception" app.log        # 显示行号
+grep -C 3 "OutOfMemory" app.log    # 上下文 3 行
+grep -r "password" /etc/nginx/     # 递归
+grep -E 'ERROR|WARN' app.log       # 扩展正则
+grep -v "health" access.log        # 反向匹配
+zgrep "ERROR" app.log.1.gz         # 压缩日志
+```
+
+### 9.1 与管道结合
+
+```bash
+journalctl -u myapp --since today | grep -i exception | tail -20
+ps aux | grep '[j]ava'   # 技巧：避免 grep 自身出现在结果中
+```
+
+---
+
+## 10. awk 基础
+
+awk 按列处理结构化文本，适合日志统计。
+
+```bash
+# 打印第 1、9 列（常见 combined 日志）
+awk '{print $1, $9}' access.log
+
+# 统计 HTTP 状态码
+awk '{cnt[$9]++} END {for (k in cnt) print k, cnt[k]}' access.log
+
+# 过滤状态码 5xx
+awk '$9 >= 500 && $9 < 600' access.log
+
+# 求第 10 列响应时间平均值（假设单位为秒）
+awk '{sum+=$10; n++} END {if(n>0) print sum/n}' access.log
+```
+
+指定分隔符：
+
+```bash
+awk -F',' '{print $1, $3}' users.csv
+```
+
+---
+
+## 11. sed 基础
+
+sed 流式编辑，适合替换与删除行。
+
+```bash
+sed -n '10,20p' file.txt           # 打印 10-20 行
+sed 's/error/ERROR/g' app.log      # 全局替换（默认只改每行首次）
+sed 's/^#//g' config.txt           # 去掉行首 #
+sed '/^$/d' file.txt               # 删除空行
+sed -i.bak 's/old/new/g' conf      # 原地修改并备份 .bak
+```
+
+**注意**：`sed -i` 会直接改文件，生产环境先输出到临时文件验证。
+
+---
+
+## 12. SSH 远程管理
+
+### 12.1 基本连接
+
+```bash
+ssh user@192.168.1.10
+ssh -p 2222 deploy@bastion.example.com
+ssh -i ~/.ssh/id_ed25519 deploy@prod
+```
+
+### 12.2 配置 ~/.ssh/config
+
+```
+Host prod
+    HostName 10.0.0.5
+    User deploy
+    Port 22
+    IdentityFile ~/.ssh/id_ed25519
+    ServerAliveInterval 60
+```
+
+之后：`ssh prod`
+
+### 12.3 密钥与权限
+
+```bash
+ssh-keygen -t ed25519 -C "you@example.com"
+ssh-copy-id deploy@prod
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/id_ed25519
+chmod 644 ~/.ssh/id_ed25519.pub
+```
+
+### 12.4 隧道与拷贝
+
+```bash
+scp file.txt deploy@prod:/opt/
+scp -r ./dist/ deploy@prod:/var/www/
+rsync -avz --progress ./build/ deploy@prod:/opt/app/
+
+# 本地转发：访问内网数据库
+ssh -L 5432:db.internal:5432 deploy@bastion
+```
+
+### 12.5 安全建议
+
+- 禁用密码登录，仅密钥（`/etc/ssh/sshd_config`：`PasswordAuthentication no`）
+- 禁止 root 直接 SSH（`PermitRootLogin no`）
+- 使用堡垒机或 VPN
+
+---
+
+## 13. 环境变量与 PATH
+
+### 13.1 查看与设置
+
+```bash
+echo $PATH
+echo $HOME
+env | sort
+export JAVA_HOME=/usr/lib/jvm/java-21-openjdk
+export PATH="$JAVA_HOME/bin:$PATH"
+```
+
+### 13.2 作用域
+
+| 文件 | 场景 |
+|------|------|
+| `~/.bashrc` | 交互式 shell |
+| `~/.profile` | 登录 shell |
+| `/etc/environment` | 系统全局 |
+| `/etc/profile.d/*.sh` | 系统脚本片段 |
+
+```bash
+source ~/.bashrc   # 使修改立即生效
+```
+
+### 13.3 单次命令带环境变量
+
+```bash
+JAVA_OPTS='-Xmx1g' ./start.sh
+env MYSQL_HOST=127.0.0.1 ./migrate.sh
+```
+
+---
+
+## 14. crontab 定时任务
+
+### 14.1 用户 crontab
+
+```bash
+crontab -l
+crontab -e
+```
+
+格式：
+
+```
+分 时 日 月 周 命令
+*  *  *  *  *  /opt/scripts/backup.sh >> /var/log/backup.log 2>&1
+0  2  *  *  *  /opt/scripts/cleanup.sh
+*/5 * * * *    /opt/scripts/healthcheck.sh
+```
+
+### 14.2 注意点
+
+1. 使用**绝对路径**。
+2. cron 环境变量很少，必要时在脚本里 `source` 或写全 `PATH`。
+3. 重定向日志，避免邮件塞满。
+4. 与 **systemd timer** 二选一；复杂调度可用 timer。
+
+```bash
+# systemd timer 示例
+systemctl list-timers
+```
+
+### 14.3 /etc/cron.d
+
+系统级任务：
+
+```
+# /etc/cron.d/myjob
+0 3 * * * deploy /opt/backup.sh
+```
+
+---
+
+## 15. 用户与组（补充）
+
+```bash
+id
+whoami
+groups
+sudo useradd -m -s /bin/bash deploy
+sudo passwd deploy
+sudo usermod -aG docker deploy
+sudo userdel -r olduser
+```
+
+---
+
+## 16. 压缩与归档
+
+```bash
+tar -czvf archive.tar.gz /opt/app/config
+tar -xzvf archive.tar.gz -C /tmp/
+zip -r dist.zip dist/
+unzip dist.zip
+```
+
+---
+
+## 17. 性能与负载一瞥
+
+```bash
+uptime                 # load average
+free -h                # 内存
+vmstat 1 5
+iostat -xz 1           # 磁盘 IO（sysstat 包）
+mpstat -P ALL 1        # 每核 CPU
+```
+
+load average 高于 CPU 核数且持续，说明 CPU 或 IO 排队严重。
+
+---
+
+## 18. 现场排障检查清单
+
+按顺序执行，避免遗漏：
+
+### 18.1 服务不可用
+
+```bash
+# 1. 服务状态
+sudo systemctl status myapp
+
+# 2. 最近日志
+journalctl -u myapp -n 200 --no-pager
+
+# 3. 端口是否监听
+ss -ltnp | grep 8080
+
+# 4. 本地探活
+curl -sf http://127.0.0.1:8080/actuator/health || echo FAIL
+
+# 5. 磁盘与内存
+df -h
+free -h
+```
+
+### 18.2 磁盘满
+
+```bash
+df -h
+du -sh /* 2>/dev/null | sort -h
+journalctl --disk-usage
+docker system df 2>/dev/null
+```
+
+### 18.3 CPU 高
+
+```bash
+top -c
+ps aux --sort=-%cpu | head
+# 对 Java：jstack <pid> 或 arthas
+```
+
+### 18.4 网络不通
+
+```bash
+ping -c 3 target
+dig target
+traceroute target
+ss -tan | grep ESTAB | wc -l
+curl -v telnet://host:port
+```
+
+### 18.5 权限问题
+
+```bash
+ls -la /path/to/file
+namei -l /path/to/file    # 追踪路径每一级权限
+id
+```
+
+---
+
+## 19. 安全与审计
+
+```bash
+last | head              # 登录记录
+sudo lastb | head        # 失败登录
+sudo ausearch -m avc -ts recent   # SELinux（RHEL）
+grep "Failed password" /var/log/auth.log
+```
+
+最小权限原则：服务用专用用户，不用 root 跑应用。
+
+---
+
+## 20. 常用一行命令速查
+
+```bash
+# 当前 shell 打开文件数
+lsof -p $$ | wc -l
+
+# 统计文件数
+find . -type f | wc -l
+
+# 去重计数
+sort access.log | uniq -c | sort -rn | head
+
+# 替换文本（perl 备选）
+perl -pi -e 's/old/new/g' *.conf
+
+# 批量重命名
+rename 's/\.bak$//' *.bak
+```
+
+---
+
+## 21. 小结
+
+Linux 运维能力 = **命令熟练度** + **系统化排障思路**：
+
+1. **权限**：`chmod`/`chown` 解决 Permission denied。
+2. **进程**：`ps`/`top`/`kill` 定位占用与僵死。
+3. **网络**：`ss`/`curl` 验证监听与连通。
+4. **服务**：`systemctl` + `journalctl` 是 systemd 发行版的核心。
+5. **磁盘**：`df`/`du`/`find` 防止写满。
+6. **文本**：`grep`/`awk`/`sed` 处理日志。
+7. **远程**：SSH 密钥与 `~/.ssh/config`。
+8. **调度**：`crontab` 或 systemd timer。
+9. **环境**：理解 `PATH` 与 export。
+
+遇到问题时，先**复现 → 看日志 → 看资源 → 看变更**，再动手改配置或重启。养成「改之前备份、改之后验证」的习惯，是生产环境最重要的运维素养。
