@@ -1,0 +1,22 @@
+[build]
+  command = "corepack enable && pnpm install && pnpm run docs:build"
+  publish = "docs/.vuepress/dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NPM_FLAGS = "--version"
+  # Prefer pnpm via Corepack (packageManager in package.json)
+  PNPM_FLAGS = "--frozen-lockfile=false"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  conditions = {Role = ["admin"]}
+  # Note: SPA fallback not needed for VuePress static pages; omit catch-all rewrite.

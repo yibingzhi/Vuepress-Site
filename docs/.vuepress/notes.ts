@@ -244,7 +244,7 @@ const zhMiddleware = defineNoteConfig({
             text: '消息中间件',
             prefix: '',
             items: [
-                '傻子都能懂的RabbitMQ教程',
+                'RabbitMQ通俗教程',
             ],
         },
     ],

@@ -10,15 +10,10 @@ export default defineUserConfig({
   lang: 'zh-CN',
   locales: {
     '/': {
-      title: 'Yibz',
+      title: '橦栖云',
       lang: 'zh-CN',
-      description: '',
+      description: '工程向技术笔记 · Java / Spring / 前端 / 数据与运维',
     },
-    // '/en/': {
-    //   title: 'My Vuepress Site',
-    //   lang: 'en-US',
-    //   description: '',
-    // },
   },
 
   bundler: viteBundler(),

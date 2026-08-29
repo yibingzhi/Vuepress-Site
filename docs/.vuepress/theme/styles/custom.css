@@ -1,50 +1,254 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Noto+Serif+SC:wght@500;600;700&display=swap');
+
 :root {
-  /** 主题颜色 */
+  /* Ink Workshop — teal ink on cool stone, not purple / cream */
+  --vp-c-brand-1: #0f4c5c;
+  --vp-c-brand-2: #1a6b5c;
+  --vp-c-brand-3: #2f8f7a;
+  --vp-c-brand-soft: rgba(15, 76, 92, 0.12);
 
-  /*
-  --vp-c-brand-1: #5086a1;
-  --vp-c-brand-2: #6aa1b7;
-  --vp-c-brand-3: #8cccd5;
-  --vp-c-brand-soft: rgba(131, 208, 218, 0.314);
-  */
+  --vp-c-bg: #f3f5f7;
+  --vp-c-bg-alt: #e8ecef;
+  --vp-c-bg-elv: #fafbfc;
+  --vp-c-bg-soft: #eef1f4;
 
-  /** 背景颜色 */
+  --vp-c-text-1: #152029;
+  --vp-c-text-2: rgba(21, 32, 41, 0.78);
+  --vp-c-text-3: rgba(21, 32, 41, 0.52);
 
-  /*
-  --vp-c-bg: #fff;
-  --vp-c-bg-alt: #f6f6f7;
-  --vp-c-bg-elv: #fff;
-  --vp-c-bg-soft: #f6f6f7;
-  */
+  --vp-font-family-base: 'DM Sans', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --vp-font-family-heading: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
 
-  /** 文本颜色 */
+  /* Hero brand: ink → teal, avoid purple gradient defaults */
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(
+    118deg,
+    #0b2e38 0%,
+    #0f4c5c 42%,
+    #1f7a6a 100%
+  );
+  --vp-bg-home-hero-name: var(--vp-home-hero-name-background);
+  --vp-c-home-hero-tagline: #3d5560;
+  --vp-c-home-hero-text: #4a5d68;
+  --vp-home-hero-tagline: var(--vp-c-home-hero-tagline);
+  --vp-home-hero-text: var(--vp-c-home-hero-text);
 
-  /*
-  --vp-c-text-1: rgba(60, 60, 67);
-  --vp-c-text-2: rgba(60, 60, 67, 0.78);
-  --vp-c-text-3: rgba(60, 60, 67, 0.56);
-  */
+  --site-grid: rgba(15, 76, 92, 0.045);
+  --site-glow: rgba(31, 122, 106, 0.18);
 }
 
-/** 深色模式 */
-[data-theme="dark"] {
-  /*
-  --vp-c-brand-1: #8cccd5;
-  --vp-c-brand-2: #6aa1b7;
-  --vp-c-brand-3: #5086a1;
-  --vp-c-brand-soft: rgba(131, 208, 218, 0.314);
-  */
+[data-theme='dark'] {
+  --vp-c-brand-1: #5ec4b0;
+  --vp-c-brand-2: #3da892;
+  --vp-c-brand-3: #2a7f70;
+  --vp-c-brand-soft: rgba(94, 196, 176, 0.16);
 
-  /*
-  --vp-c-bg: #1b1b1f;
-  --vp-c-bg-alt: #161618;
-  --vp-c-bg-elv: #202127;
-  --vp-c-bg-soft: #202127;
-  */
+  --vp-c-bg: #0e1418;
+  --vp-c-bg-alt: #0a1013;
+  --vp-c-bg-elv: #151c21;
+  --vp-c-bg-soft: #151c21;
 
-  /*
-  --vp-c-text-1: rgba(255, 255, 245, 0.86);
-  --vp-c-text-2: rgba(235, 235, 245, 0.6);
-  --vp-c-text-3: rgba(235, 235, 245, 0.38);
-  */
+  --vp-c-text-1: rgba(245, 248, 250, 0.92);
+  --vp-c-text-2: rgba(220, 230, 235, 0.7);
+  --vp-c-text-3: rgba(200, 214, 220, 0.45);
+
+  --vp-home-hero-name-background: linear-gradient(
+    118deg,
+    #9ee0d0 0%,
+    #5ec4b0 45%,
+    #3da892 100%
+  );
+  --vp-bg-home-hero-name: var(--vp-home-hero-name-background);
+  --vp-c-home-hero-tagline: rgba(190, 210, 215, 0.78);
+  --vp-c-home-hero-text: rgba(180, 200, 205, 0.62);
+  --vp-home-hero-tagline: var(--vp-c-home-hero-tagline);
+  --vp-home-hero-text: var(--vp-c-home-hero-text);
+
+  --site-grid: rgba(94, 196, 176, 0.05);
+  --site-glow: rgba(94, 196, 176, 0.14);
+}
+
+html,
+body {
+  font-family: var(--vp-font-family-base);
+}
+
+/* Atmosphere: soft grid + corner wash (not flat bg) */
+body {
+  background-image:
+    radial-gradient(1200px 600px at 12% -10%, var(--site-glow), transparent 55%),
+    radial-gradient(900px 500px at 100% 0%, rgba(15, 76, 92, 0.08), transparent 50%),
+    linear-gradient(var(--site-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--site-grid) 1px, transparent 1px);
+  background-size: auto, auto, 48px 48px, 48px 48px;
+  background-attachment: fixed;
+}
+
+.vp-navbar {
+  backdrop-filter: saturate(1.2) blur(10px);
+  border-bottom-color: rgba(15, 76, 92, 0.08) !important;
+}
+
+.vp-navbar .brand,
+.vp-site-name,
+.vp-nav-logo + span {
+  font-family: var(--vp-font-family-heading);
+  letter-spacing: 0.04em;
+}
+
+/* Hero motion */
+@keyframes site-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes site-underline {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.vp-home .vp-hero-content,
+.vp-hero .container,
+[class*='hero'] .name,
+.vp-home-hero {
+  animation: site-rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.vp-home .name,
+.vp-hero-name,
+.vp-home-hero-name {
+  font-family: var(--vp-font-family-heading) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  position: relative;
+}
+
+.vp-home .name::after,
+.vp-hero-name::after,
+.vp-home-hero-name::after {
+  content: '';
+  display: block;
+  width: min(180px, 40%);
+  height: 2px;
+  margin: 0.65rem auto 0;
+  background: linear-gradient(90deg, transparent, var(--vp-c-brand-2), transparent);
+  transform-origin: center;
+  animation: site-underline 1s 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.vp-home .tagline,
+.vp-home-hero-tagline {
+  font-family: var(--vp-font-family-base);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.85rem !important;
+  animation: site-rise 0.9s 0.12s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.vp-home .text,
+.vp-home-hero-text {
+  max-width: 36rem;
+  line-height: 1.7;
+  animation: site-rise 0.95s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.vp-home .actions,
+.vp-home-hero-actions {
+  animation: site-rise 1s 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.vp-button.brand,
+.VPButton.brand {
+  border-radius: 4px !important;
+  letter-spacing: 0.04em;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.vp-button.brand:hover,
+.VPButton.brand:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(15, 76, 92, 0.22);
+}
+
+.vp-button.alt,
+.VPButton.alt {
+  border-radius: 4px !important;
+}
+
+/* Features below fold: calm, not card-heavy */
+.vp-features,
+.VPFeatures {
+  padding-top: 2.5rem !important;
+}
+
+.vp-feature-item,
+.VPFeature {
+  border-radius: 6px !important;
+  border: 1px solid rgba(15, 76, 92, 0.1) !important;
+  background: color-mix(in srgb, var(--vp-c-bg-elv) 88%, transparent) !important;
+  box-shadow: none !important;
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.vp-feature-item:hover,
+.VPFeature:hover {
+  border-color: var(--vp-c-brand-2) !important;
+  transform: translateY(-2px);
+}
+
+h1,
+h2,
+h3,
+.vp-doc h1,
+.vp-doc h2 {
+  font-family: var(--vp-font-family-heading);
+  letter-spacing: 0.02em;
+}
+
+/* Dev easter egg banner (toggled by console / konami) */
+.site-egg {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 40;
+  padding: 10px 14px;
+  border-radius: 6px;
+  background: #0f4c5c;
+  color: #f3f5f7;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  font-family: ui-monospace, 'DM Sans', monospace;
+}
+
+.site-egg.is-on {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  body {
+    background-size: auto, auto, 36px 36px, 36px 36px;
+  }
+
+  .vp-home .name::after,
+  .vp-hero-name::after,
+  .vp-home-hero-name::after {
+    margin-left: 0;
+  }
 }

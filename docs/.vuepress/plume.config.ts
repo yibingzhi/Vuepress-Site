@@ -7,11 +7,15 @@ import { enNotes, zhNotes } from './notes'
  */
 export default defineThemeConfig({
   logo: '1.jpg',
-  // your git repo url
-  docsRepo: '',
+  docsRepo: 'https://github.com/yibingzhi/Vuepress-Site',
   docsDir: 'docs',
+  docsBranch: 'master',
 
   appearance: true,
+  footer: {
+    message: 'Engineering notes · 橦栖云',
+    copyright: '© 翌冰之',
+  },
 
   social: [
     { icon: 'github', link: 'https://github.com/yibingzhi' },
@@ -22,10 +26,8 @@ export default defineThemeConfig({
       profile: {
         avatar: '1.jpg',
         name: '翌冰之',
-        description: '',
+        description: 'Java / 全栈工程笔记',
         circle: true,
-        location: '',
-        organization: '',
       },
 
       navbar: zhNavbar,
@@ -33,12 +35,10 @@ export default defineThemeConfig({
     },
     '/en/': {
       profile: {
-        avatar: 'https://theme-plume.vuejs.press/plume.png',
-        name: 'My Vuepress Site',
-        description: '',
-        // circle: true,
-        // location: '',
-        // organization: '',
+        avatar: '1.jpg',
+        name: 'Yibz',
+        description: 'Engineering notes',
+        circle: true,
       },
 
       navbar: enNavbar,
