@@ -4,15 +4,19 @@ tags:
   - RabbitMQ
   - 消息队列
   - MQ
-title: RabbitMQ教程通俗易懂版本
+title: RabbitMQ 通俗教程
 createTime: 2025/07/16 14:45:45
 permalink: /article/zaao1ys9/
 ---
-# 傻子都能懂的RabbitMQ教程
 
+# RabbitMQ 通俗教程
+
+::: tip
+面向入门的讲解文风；生产集成见 [SpringBoot 集成 RabbitMQ](/SpringBoot/SpringBoot集成/) 与微服务目录下的 RabbitMQ 专篇。
+:::
 
 ## 学习目标
-学完这篇笔记，你将能：  
+学完这篇笔记，你将能：
 - 明白RabbitMQ到底是个啥，为啥要用它  
 - 在自己的电脑上安装并启动RabbitMQ  
 - 理解RabbitMQ的核心组件（就像认识邮局里的各个部门）  

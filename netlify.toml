@@ -1,0 +1,9 @@
+[build]
+  command = "corepack enable && pnpm install && pnpm run docs:build"
+  publish = "docs/.vuepress/dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NODE_OPTIONS = "--max-old-space-size=4096"
+
+# VuePress 已是静态多页，不要把 /assets/*.css 重写成 index.html。
