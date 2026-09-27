@@ -1,4 +1,4 @@
-import { defineThemeConfig } from 'vuepress-theme-plume'
+import { defineCollection, defineThemeConfig } from 'vuepress-theme-plume'
 import { enNavbar, zhNavbar } from './navbar'
 import { enNotes, zhNotes } from './notes'
 
@@ -12,6 +12,26 @@ export default defineThemeConfig({
   docsBranch: 'master',
 
   appearance: true,
+
+  // 新版主题不再自动生成 /blog/，需要显式声明文章集合。
+  // permalink: false 保留每篇笔记自己的链接，避免把旧地址改掉。
+  collections: [
+    defineCollection({
+      type: 'post',
+      dir: 'notes',
+      title: '笔记',
+      link: '/blog/',
+      linkPrefix: '/article/',
+      tags: true,
+      tagsLink: '/blog/tags/',
+      archives: true,
+      archivesLink: '/blog/archives/',
+      autoFrontmatter: {
+        permalink: false,
+      },
+      exclude: ['**/README.md'],
+    }),
+  ],
   footer: {
     message: '橦云异梦',
     copyright: '翌冰之',
