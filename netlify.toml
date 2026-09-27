@@ -4,19 +4,6 @@
 
 [build.environment]
   NODE_VERSION = "22"
-  NPM_FLAGS = "--version"
-  # Prefer pnpm via Corepack (packageManager in package.json)
-  PNPM_FLAGS = "--frozen-lockfile=false"
+  NODE_OPTIONS = "--max-old-space-size=4096"
 
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  conditions = {Role = ["admin"]}
-  # Note: SPA fallback not needed for VuePress static pages; omit catch-all rewrite.
+# VuePress 已是静态多页，不要把 /assets/*.css 重写成 index.html。
