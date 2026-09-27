@@ -10,9 +10,9 @@ export default defineUserConfig({
   lang: 'zh-CN',
   locales: {
     '/': {
-      title: 'Yibz',
+      title: '橦云异梦',
       lang: 'zh-CN',
-      description: '',
+      description: '醒时手艺，梦边注脚。Java / 前端 / 数据与运维笔记。',
     },
     // '/en/': {
     //   title: 'My Vuepress Site',
